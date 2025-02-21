@@ -1,0 +1,687 @@
+---
+title: "Data Cleaning for Raw Tick-Bourne Cases Data - 2019 to 2024"
+author: "Hope Grismer"
+date: "2025-02-21"
+output: html_document
+---
+
+
+
+Data Cleaning for Raw Tick-Bourne Cases Data - 2019 to 2024
+
+
+
+
+```{r}
+library(readxl)  # For loading Excel files
+library(dplyr)   # For data processing/cleaning
+library(tidyr)   # For data processing/cleaning
+library(skimr)   # For nice visualization of data
+library(here)    # To set paths
+library(kableExtra)
+```
+
+```{r}
+## ---- loaddata --------
+# Define the path to the data
+data_location <- here::here("data", "raw-data", "Tick-Bourne_Cases_2019_to_2024.xlsx")
+```
+
+```{r}
+# Load the data
+rawdata <- readxl::read_excel(data_location)
+```
+
+```{r}
+## ---- exploredata --------
+# Take a look at the raw data structure
+dplyr::glimpse(rawdata)
+head(rawdata)
+```
+
+```{r}
+# Summary statistics
+summary(rawdata)
+
+# Preview first few rows
+head(rawdata)
+
+# Nice visualization of data
+skimr::skim(rawdata)
+```
+
+
+The first cleaning step removes cases where the STATUS field is either missing or not labeled as "CONFIRMED." This ensures that only officially confirmed cases are included in further analysis. The cleaned dataset is then saved for future reference.
+
+
+
+```{r}
+## ---- cleandata --------
+# Remove cases where STATUS is NA or not confirmed
+cleaned_data <- rawdata %>%
+  dplyr::filter(!is.na(STATUS) & STATUS == "CONFIRMED")
+
+# Take another look at cleaned data
+dplyr::glimpse(cleaned_data)
+
+## ---- savedata --------
+# Define save location for cleaned data
+save_data_location <- here::here("data", "processed-data", "Tick-Bourne_Cases_Cleaned.rds")
+
+# Ensure the "processed-data" folder exists
+if (!dir.exists(here::here("data", "processed-data"))) {
+  dir.create(here::here("data", "processed-data"), recursive = TRUE)
+}
+# Save the cleaned data
+saveRDS(cleaned_data, file = save_data_location)
+
+# Confirm success
+message("Cleaned data saved successfully at: ", save_data_location)
+```
+
+```{r}
+## ---- Table --------
+cleaned_data %>%
+  dplyr::select(DISEASE, AGE, GENDER, COUNTY, STATE, LABDATE1, RESULT1, STATUS) %>%  # Select key columns for display
+  knitr::kable(caption = "Cleaned Tick-Bourne Disease Cases (2019-2024)", align = "c") %>%
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  ) %>%
+  kableExtra::column_spec(1, bold = TRUE, color = "white", background = "#2C3E50") %>%  # Highlight the first column
+  kableExtra::column_spec(2:8, width = "12em") %>%  # Adjust column widths for readability
+  kableExtra::row_spec(0, bold = TRUE, background = "#34495E", color = "white")  # Style header row
+```
+
+
+To refine the dataset further, only cases with a confirmed "positive" test result are retained. Any cases with missing, blank, or ambiguous results (such as "inconclusive") are excluded. This step eliminated 15 cases that did not meet the case definition used in Georgia, leaving 95 valid data points. However, upon further review, I noticed that additional positive cases that were not explicitly labeled "positive" were inadvertently removed, prompting a refinement of the filtering criteria.
+
+
+
+```{r}
+## ---- clean_data_step2 --------
+# Further exclude cases where RESULT1 is blank or not "positive" in any capitalization
+cleaned_data2 <- cleaned_data %>%
+  filter(!is.na(RESULT1) & RESULT1 != "" & tolower(RESULT1) == "positive")
+
+# Save final cleaned dataset
+final_save_data_location <- here::here("data", "processed-data", "Tick-Bourne_Cases_Cleaned_Step2.rds")
+saveRDS(cleaned_data2, file = final_save_data_location)
+
+## ---- display_table_step2 --------
+# Display professional table for second cleaning step
+kableExtra::kable(cleaned_data2, format = "html", caption = "Final Cleaned Data After Removing Blank RESULT1 Cases") %>%
+  kableExtra::kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kableExtra::column_spec(1, bold = TRUE, color = "white", background = "#2C3E50") %>%  # Highlight first column
+  kableExtra::column_spec(2:ncol(cleaned_data2), width = "10em") %>%  # Adjust column widths
+  kableExtra::row_spec(0, bold = TRUE, background = "#34495E", color = "white")  # Header row styling
+```
+
+
+This step provided an easier summary table of some of the most relevant information on these positive cases. 
+
+
+
+```{r}
+## ---- display only a few of the columns --------
+
+# Select the specified columns and sort by DISEASE
+selected_columns_data <- cleaned_data2 %>%
+  select(DISEASE, STATUS, COUNTY, GENDER, AGE, LABTEST1, RESULT1) %>%
+  dplyr::arrange(DISEASE)  # Ensure sorting by disease name
+
+# Display the table with consistent styling
+kableExtra::kable(selected_columns_data, format = "html", caption = "Selected Columns from Final Cleaned Data") %>%
+  kableExtra::kable_styling(
+    full_width = FALSE, 
+    bootstrap_options = c("striped", "hover", "condensed", "responsive")
+  ) %>%
+  kableExtra::column_spec(1, bold = TRUE, color = "white", background = "#2C3E50") %>%  # Highlight the first column
+  kableExtra::column_spec(1:ncol(selected_columns_data), width = "12em") %>%  # Adjust column widths
+  kableExtra::row_spec(0, bold = TRUE, background = "#2C3E50", color = "white")  # Header row styling
+```
+
+
+A second round of filtering ensures that all positive cases are correctly identified while excluding known non-positive values such as "Negative," "Equivocal," "Not detected," and other irrelevant entries. The updated dataset is saved again for consistency.
+
+
+```{r}
+## ---- clean_data_step3--------
+# Define values to exclude from RESULT1
+excluded_values <- c("", NA, "Negative", "Equivocal", "negative", "Choose One", "Not detected", "Indeterminant/Equivocal")
+
+# Filter out only the excluded values while keeping all other results
+cleaned_data3 <- cleaned_data %>%
+  filter(!(RESULT1 %in% excluded_values) & !is.na(RESULT1))
+
+# Save final cleaned dataset
+cleaned_data3_save_location <- here::here("data", "processed-data", "Tick-Bourne_Cases_Final_Cleaned.rds") 
+saveRDS(cleaned_data3, file = cleaned_data3_save_location)
+
+# Display count of remaining observations
+nrow(cleaned_data3)
+
+```
+
+
+To present the cleaned data effectively, selected key columns—including DISEASE, STATUS, COUNTY, GENDER, AGE, LABTEST1, and RESULT1—are displayed in a professionally styled table using the kableExtra package. This enhances readability and makes it easier to analyze trends.
+
+
+```{r}
+## ---- display only a few of the columns --------
+
+# Select the specified columns
+selected_columns_data <- cleaned_data3 %>%
+  select(DISEASE, STATUS, COUNTY, GENDER, AGE, LABTEST1, RESULT1) %>%
+  dplyr::arrange(DISEASE)  # Use the correct column name
+
+# Display the table with consistent styling
+kableExtra::kable(selected_columns_data, format = "html", caption = "Selected Columns from Final Cleaned Data") %>%
+  kableExtra::kable_styling(
+    full_width = FALSE, 
+    bootstrap_options = c("striped", "hover", "condensed", "responsive")
+  ) %>%
+  kableExtra::column_spec(1, bold = TRUE, color = "white", background = "#2C3E50") %>%  # Highlight the first column
+  kableExtra::column_spec(1:ncol(selected_columns_data), width = "12em") %>%  # Adjust column widths
+  kableExtra::row_spec(0, bold = TRUE, background = "#2C3E50", color = "white")  # Header row styling
+
+```
+
+
+A histogram is created to visualize the distribution of different tick-borne diseases in Georgia between 2019 and 2024. The ggplot2 package is used to generate a clean and informative bar chart, illustrating the most prevalent diseases. 
+
+
+```{r}
+## ---- disease_histogram --------
+library(ggplot2)
+
+# Create histogram of disease counts
+disease_plot <- ggplot(cleaned_data3, aes(x = DISEASE)) +
+  geom_bar(fill = "#2C3E50", color = "white") +  # Dark blue bars with white edges
+  theme_minimal() +
+  labs(
+    title = "Distribution of Tick-Bourne Disease\nTypes for Confirmed Cases in Georgia (2019-2024)",
+    x = "Disease Type",
+    y = "Count"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),  # Rotate & reduce x-axis label size
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    plot.margin = margin(10, 10, 20, 10)  # Adjust margins to prevent cutoff
+  )
+
+# Display the plot
+print(disease_plot)
+
+# Define save locations
+save_plot_location <- here::here("results", "figures", "disease_histogram.png")
+
+# Ensure directory exists
+dir.create(here::here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
+
+# Save the plot
+ggsave(filename = save_plot_location, plot = disease_plot, width = 12, height = 6, dpi = 300)
+```
+
+
+To explore the severity of Rocky Mountain Spotted Fever cases, a box plot of TITER1 values (log-transformed for better visualization) is created. This helps in understanding the spread and variability of test results among confirmed cases. It also is considered relatively analagous to the patterns seen in Alpha-Gal Syndrome, which is a topic of interest for me, but is not explicitly included in this data set as it is currently not a reportable disease in Georgia.
+
+
+```{r}
+# Save the plot
+ggsave(filename = save_plot_location, plot = disease_plot, width = 12, height = 6, dpi = 300)
+
+# ---- rmsf_boxplot --------
+# Filter for Rocky Mountain Spotted Fever cases
+rmsf_data <- rawdata %>%
+  filter(DISEASE == "ROCKY MOUNTAIN SPOTTED FEVER") %>%
+  mutate(TITER1 = as.numeric(TITER1)) %>%  # Ensure TITER1 is numeric
+  filter(!is.na(TITER1) & TITER1 > 0)
+
+# Create box and whisker plot for log-transformed TITER1 values
+rmsf_titer_plot <- ggplot(rmsf_data, aes(y = TITER1)) +
+  geom_boxplot(fill = "#1B9E77", color = "black") +  # Green box plot
+  scale_y_log10() +  # Apply log10 scale
+  theme_minimal() +
+  labs(
+    title = "Log-Transformed Distribution of TITER1 Values\nfor Rocky Mountain Spotted Fever Cases",
+    y = "TITER1 Value (Log Scale)"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title.x = element_blank(),  # Remove x-axis title
+    axis.text.x = element_blank(),   # Remove x-axis labels
+    axis.ticks.x = element_blank()   # Remove x-axis ticks
+  )
+
+# Display the plot
+print(rmsf_titer_plot)
+
+# Define save location
+save_rmsf_plot_location <- here::here("results", "figures", "rmsf_titer_boxplot_log.png")
+
+# Save the plot
+ggsave(filename = save_rmsf_plot_location, plot = rmsf_titer_plot, width = 8, height = 6, dpi = 300)
+
+```
+
+
+The dataset is filtered to determine the five most common tick-borne diseases. A bar chart is created to highlight the case count for each of these diseases, providing an overview of the most significant public health concerns.
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(here)
+
+# Load the cleaned data
+cleaned_data <- readRDS(here::here("data", "processed-data", "Tick-Bourne_Cases_Cleaned.rds"))
+
+# Get top 5 diseases by total count across all counties
+top_diseases <- cleaned_data %>%
+  count(DISEASE, sort = TRUE) %>%  # Count cases per disease
+  top_n(5, n) %>%  # Select top 5 diseases
+  pull(DISEASE)  # Extract disease names as a vector
+
+# Filter data for only the top 5 diseases
+filtered_data <- cleaned_data %>%
+  filter(DISEASE %in% top_diseases)
+
+# Summarize total cases for each of the top 5 diseases
+disease_summary <- filtered_data %>%
+  group_by(DISEASE) %>%
+  summarise(Count = n(), .groups = "drop")  # Count cases per Disease
+
+# Create bar chart
+top5_disease_plot <- ggplot(disease_summary, aes(x = reorder(DISEASE, -Count), y = Count, fill = DISEASE)) +
+  geom_bar(stat = "identity", color = "black", alpha = 0.8) +  # Bar chart for count
+  geom_text(aes(label = Count), vjust = -0.5, size = 5) +  # Count labels above bars
+  theme_minimal() +
+  labs(
+    title = "Top 5 Tick-Borne Diseases",
+    x = "Disease",
+    y = "Case Count",
+    fill = "Disease"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10)  # Angled labels for clarity
+  ) +
+  scale_fill_brewer(palette = "Set1")  # Nice color scheme for different diseases
+
+# Display the plot
+print(top5_disease_plot)
+
+# Define save location
+save_top5_disease_plot <- here::here("results", "figures", "top5_diseases_plot.png")
+
+# Save the plot
+ggsave(filename = save_top5_disease_plot, plot = top5_disease_plot, width = 8, height = 6, dpi = 300)
+
+# Confirm success
+message("Plot saved successfully at: ", save_top5_disease_plot)
+
+```
+
+
+Lyme Disease is likewise similar to Alpha-gal. So, a specific analysis is conducted for Lyme Disease cases, focusing on test results was conducted. Below ia a count histogram generated to compare positive, negative, and other test outcomes, offering insights into testing patterns and diagnosis rates.
+
+
+
+```{r}
+# ---- lyme_count_histogram --------
+# Filter for Lyme Disease cases and exclude "Choose One" category
+lyme_data2 <- rawdata %>%
+  filter(DISEASE == "LYME DISEASE", RESULT1 != "Choose One") %>%
+  mutate(
+    RESULT1 = case_when(
+      RESULT1 %in% c("Unknown", "Other") ~ "Unknown/Other",  # Group "Unknown" and "Other"
+      RESULT1 == "Results Pending" ~ "Results Pending",      # Keep "Results Pending" separate
+      TRUE ~ RESULT1  # Keep all other values unchanged
+    ),
+    RESULT1 = factor(RESULT1)  # Ensure it's a factor
+  )
+
+# Create count histogram for positive vs. negative cases
+lyme_count_histogram2 <- ggplot(lyme_data2, aes(x = RESULT1, fill = RESULT1)) +
+  geom_bar(color = "black", alpha = 0.8) +  # Bar chart for count comparison
+  geom_text(stat = "count", aes(label = after_stat(count)), vjust = -0.5, size = 5) +  # Count labels above bars
+  scale_fill_manual(values = c(
+    "Positive" = "#E41A1C",
+    "Negative" = "#377EB8",
+    "Unknown/Other" = "#4DAF4A",   # Green for the grouped category
+    "Results Pending" = "#FF7F00"  # Orange for "Results Pending"
+  )) +
+  theme_minimal() +
+  labs(
+    title = "Count of Lyme Disease Test Results",
+    x = "Test Result",
+    y = "Count",
+    fill = "Test Result"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.text.x = element_text(face = "bold", size = 8, angle = 45, hjust = 1)  # Smaller labels
+  )
+
+# Display the plot
+print(lyme_count_histogram2)
+
+# Define save location
+save_lyme_count_plot <- here::here("results", "figures", "lyme_result_count_histogram2.png")
+
+# Save the plot
+ggsave(filename = save_lyme_count_plot, plot = lyme_count_histogram2, width = 8, height = 6, dpi = 300)
+
+```
+
+
+
+The final visualization maps tick-borne disease cases across different counties in Georgia. A grouped bar chart displays case counts per county, categorized by disease type. This geographic breakdown helps in identifying regional hotspots for tick-borne illnesses, which can inform public health interventions. This visualization is busy so it was further altered to show the top five tick bourne diseases and how they break down across the top 12 (by overall count of confirmed cases) counties in Georgia.
+
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(here)
+
+# Load the cleaned data
+cleaned_data <- readRDS(here::here("data", "processed-data", "Tick-Bourne_Cases_Cleaned.rds"))
+
+# Create count summary by Disease and County
+disease_county_summary <- cleaned_data %>%
+  group_by(DISEASE, COUNTY) %>%
+  summarise(Count = n(), .groups = "drop")  # Count cases per Disease & County
+
+# Create bar chart
+disease_county_plot <- ggplot(disease_county_summary, aes(x = COUNTY, y = Count, fill = DISEASE)) +
+  geom_bar(stat = "identity", color = "black", alpha = 0.8) +  # Bar chart for count
+  geom_text(aes(label = Count), vjust = -0.5, size = 3) +  # Count labels above bars
+  theme_minimal() +
+  labs(
+    title = "Tick-Borne Disease Cases by County",
+    x = "County",
+    y = "Case Count",
+    fill = "Disease"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8)  # Angled labels for clarity
+  ) +
+  scale_fill_brewer(palette = "Set1")  # Nice color scheme for different diseases
+
+# Display the plot
+print(disease_county_plot)
+
+# Define save location
+save_disease_county_plot <- here::here("results", "figures", "disease_county_plot.png")
+
+# Save the plot
+ggsave(filename = save_disease_county_plot, plot = disease_county_plot, width = 10, height = 6, dpi = 300)
+
+# Confirm success
+message("Plot saved successfully at: ", save_disease_county_plot)
+
+```
+
+
+To look at trends in disease burden as well as "hot-spot" counties, I generated the stacked bar graph below.
+
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(here)
+library(RColorBrewer)
+
+# Load the cleaned data
+cleaned_data <- readRDS(here::here("data", "processed-data", "Tick-Bourne_Cases_Cleaned.rds"))
+
+# Get top 5 diseases by total count across all counties
+top_diseases <- cleaned_data %>%
+  count(DISEASE, sort = TRUE) %>%  
+  top_n(5, n) %>%  
+  pull(DISEASE)  
+
+# Filter data for only the top 5 diseases
+filtered_data <- cleaned_data %>%
+  filter(DISEASE %in% top_diseases)
+
+# Identify the top 12 counties by total case count
+top_counties <- filtered_data %>%
+  count(COUNTY, sort = TRUE) %>%
+  top_n(12, n) %>%
+  pull(COUNTY)
+
+# Ensure we have exactly 12 counties (or fewer if dataset is small)
+top_counties <- unique(top_counties)[1:min(12, length(top_counties))]
+
+# Keep only those top counties in the dataset
+filtered_data <- filtered_data %>%
+  filter(COUNTY %in% top_counties)
+
+# Summarize case counts for each disease and county
+disease_county_summary <- filtered_data %>%
+  group_by(DISEASE, COUNTY) %>%
+  summarise(Count = n(), .groups = "drop")  
+
+# Get the exact number of unique counties in filtered data
+num_counties <- length(unique(disease_county_summary$COUNTY))
+
+# Assign colors dynamically based on available counties
+county_colors <- setNames(brewer.pal(num_counties, "Paired"), unique(disease_county_summary$COUNTY))
+
+# Create stacked bar chart
+top5_stacked_plot <- ggplot(disease_county_summary, aes(x = DISEASE, y = Count, fill = COUNTY)) +
+  geom_bar(stat = "identity", color = "black", alpha = 0.8) +  
+  theme_minimal() +
+  labs(
+    title = "Top 5 Tick-Borne Diseases by County",
+    x = "Disease",
+    y = "Case Count",
+    fill = "County"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10)
+  ) +
+  scale_fill_manual(values = county_colors)  # Assign fixed colors to the top counties
+
+# Display the plot
+print(top5_stacked_plot)
+
+# Define save location
+save_top5_stacked_plot <- here::here("results", "figures", "top5_diseases_stacked_plot.png")
+
+# Save the plot
+ggsave(filename = save_top5_stacked_plot, plot = top5_stacked_plot, width = 8, height = 6, dpi = 300)
+
+# Confirm success
+message("Plot saved successfully at: ", save_top5_stacked_plot)
+
+
+```
+
+
+Age distribution might be of interest in the analysis, so this was checked as part of this initial data cleaning. This output shows 0 rows of the cleaned data to be missing ages. As an exploratory analysis, I looked at disease count by age group from my cleaned data set. 
+
+
+```{r}
+missing_age_rows <- cleaned_data3 %>%
+  filter(is.na(AGE))
+
+print(missing_age_rows)
+
+library(ggplot2)
+library(dplyr)
+
+# Create age bins of 20 years
+selected_columns_data <- cleaned_data2 %>%
+  select(DISEASE, AGE) %>%
+  mutate(Age_Bin = cut(AGE, 
+                       breaks = seq(0, 100, by = 20),  # Adjust max age as needed
+                       labels = c("0-19", "20-39", "40-59", "60-79", "80+"),
+                       right = FALSE)) %>%
+  drop_na(Age_Bin)  # Remove any NA values due to missing AGE data
+
+# Create stacked bar plot
+age_group_plot <- ggplot(selected_columns_data, aes(x = Age_Bin, fill = DISEASE)) +
+  geom_bar(position = "stack") +
+  labs(title = "Disease Count by Age Group",
+       x = "Age Group",
+       y = "Count",
+       fill = "Disease Type") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
+
+# Save the plot to results/figures using here::here()
+ggsave(
+  filename = here::here("results", "figures", "disease_count_by_age.png"), 
+  plot = age_group_plot, 
+  width = 8, 
+  height = 6, 
+  dpi = 300
+)
+
+age_group_plot
+
+```
+
+
+Another thing that might be used in my analysis to answer the question of how data completeness evolved over time is cleaning the data to extract data onset information. 
+
+By distinguishing between Blank and Text in the STATUS column over time, this plot helps pinpoint periods with high missingness. If there are spikes in Blank values at certain times, it could indicate data entry issues, system errors, or gaps in reporting that need to be addressed before deeper analysis.
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# Convert DOO to Date and group by Month
+statuscompleteness_summary <- rawdata %>%
+  mutate(DOO = as.Date(DOO),  # Ensure DOO is in Date format
+         Month = floor_date(DOO, "month"),  # Aggregate by month
+         Status_Category = ifelse(STATUS == "" | is.na(STATUS), "Blank", "Text")) %>%
+  group_by(Month, Status_Category) %>%
+  summarise(Count = n(), .groups = "drop")
+
+# Save the cleaned dataset to the processed_data folder
+write_csv(statuscompleteness_summary, here::here("data", "processed-data", "cleaned_statuscompleteness_summary.csv"))
+
+# Create improved line plot
+ggplot(statuscompleteness_summary, aes(x = Month, y = Count, color = Status_Category, group = Status_Category)) +
+  geom_line(size = 1) +  # Adjust line thickness
+  geom_point(size = 1, alpha = 0.6) +  # Reduce point size & add transparency
+  geom_smooth(method = "loess", se = FALSE, linetype = "dashed") +  # Add smoothed trendline
+  labs(title = "Comparison of Blank vs. Text in STATUS Column by Month",
+       x = "Date of Onset (Monthly Aggregation)",
+       y = "Count",
+       color = "Status Category") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+
+```
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(readr)
+library(here)
+library(kableExtra)
+library(fs)
+
+# Extract year and month from the selected date columns
+processed_date_data <- rawdata %>%
+  mutate(
+    UPDATE_YEAR = year(ymd(UPDATEDATE)),
+    UPDATE_MONTH = month(ymd(UPDATEDATE), label = TRUE),  # Extract month name
+    DOO_YEAR = year(ymd(DOO)),
+    DOO_MONTH = month(ymd(DOO), label = TRUE),
+    LAB1_YEAR = year(ymd(LABDATE1)),
+    LAB1_MONTH = month(ymd(LABDATE1), label = TRUE),
+    LAB2_YEAR = year(ymd(LABDATE2)),
+    LAB2_MONTH = month(ymd(LABDATE2), label = TRUE)
+  ) %>%
+  filter(
+    !is.na(UPDATE_YEAR) & !is.na(UPDATE_MONTH) & 
+    !is.na(DOO_YEAR) & !is.na(DOO_MONTH) & 
+    !is.na(LAB1_YEAR) & !is.na(LAB1_MONTH) & 
+    !is.na(LAB2_YEAR) & !is.na(LAB2_MONTH)  # Exclude rows with missing date parts
+  )
+
+# Select key columns for review
+summary_table <- processed_date_data %>%
+  select(DISEASE, UPDATEDATE, DOO, LABDATE1, LABDATE2)
+
+# Save the cleaned dataset
+fs::dir_create(here::here("data", "processed-data"))  # Ensure directory exists
+write_csv(processed_date_data, here::here("data", "processed-data", "processed_dates.csv"))
+
+# Summary Table
+kableExtra::kable(summary_table, format = "html", caption = "Extracted Date Information for Disease Cases") %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kableExtra::column_spec(1, bold = TRUE, color = "white", background = "#2C3E50") %>%  # Highlight the first column
+  kableExtra::column_spec(2:ncol(summary_table), width = "12em") %>%  # Adjust column widths
+  kableExtra::row_spec(0, bold = TRUE, background = "#2C3E50", color = "white")  # Header row styling
+
+```
+
+
+Another question that I want to analyze later and therefore needed to clean for was What is the timeline between key dates (onset, lab test, and date of entry), excluding same-day onset and lab results, and how does this timeline vary over time? One thing I have noticed in my internship work on tick-bourne illness is the huge issue with loss-to-follow-up.
+
+The code below calculate the time differences between key dates. The script then calculates the number of days between the onset date (DOO) and the first lab date (LABDATE1), between the first and second lab dates (LABDATE2), and between the second lab date and the update date (UPDATEDATE). These values are summed to determine the total duration of each case.
+
+This processed dataset is then saved as a CSV file for further analysis. The script also generates a formatted HTML table to display the extracted time information in a structured manner. 
+
+Once I took a look at this table, however, there were big issues. Namely, that negative time (in days) was recorded between the initial lab result and the follow up test. I wrote further code to remove these values because it is not able to be determined what the proper date was due to user error. I added a filter accordingly. 
+
+
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(readr)
+library(here)
+library(kableExtra)
+library(fs)
+library(ggplot2)
+
+# Calculate time differences between the dates
+processed_time_data <- processed_date_data %>%
+  mutate(
+    DOO_to_LAB1 = as.numeric(difftime(LABDATE1, DOO, units = "days")),
+    LAB1_to_LAB2 = as.numeric(difftime(LABDATE2, LABDATE1, units = "days")),
+    LAB2_to_UPDATE = as.numeric(difftime(UPDATEDATE, LABDATE2, units = "days")),
+    TOTAL_DAYS = DOO_to_LAB1 + LAB1_to_LAB2 + LAB2_to_UPDATE
+  )
+
+# Remove rows with any negative values
+processed_time_data2 <- processed_time_data %>%
+  filter(if_all(c(DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS), ~ . >= 0))
+
+# Select key columns for review
+time_summary_table <- processed_time_data2 %>%
+  select(DISEASE, DOO, LABDATE1, LABDATE2, UPDATEDATE, DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS)
+
+# Save the dataset with time differences
+fs::dir_create(here::here("data", "processed-data"))  # Ensure directory exists
+write_csv(processed_time_data2, here::here("data", "processed-data", "time_between_processeddata.csv"))
+
+# Summary Table
+kableExtra::kable(time_summary_table, format = "html", caption = "Time Differences Between Key Date Points") %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  kableExtra::column_spec(1, bold = TRUE, color = "white", background = "#2C3E50") %>%  # Highlight the first column
+  kableExtra::column_spec(2:ncol(time_summary_table), width = "12em") %>%  # Adjust column widths
+  kableExtra::row_spec(0, bold = TRUE, background = "#2C3E50", color = "white")  # Header row styling
+
+```
+
