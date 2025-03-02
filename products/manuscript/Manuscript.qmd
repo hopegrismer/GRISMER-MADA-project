@@ -324,6 +324,7 @@ library(knitr)
 # Generate correct file paths
 img_paths <- c(
   here::here("results", "figures", "disease_county_plot.png"),
+  here::here("results", "figures", "top5_diseases_stacked_plot"),
   here::here("results", "figures", "top5_disease_county_plot.png")
 )
 

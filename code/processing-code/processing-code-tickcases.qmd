@@ -7,7 +7,6 @@ output: html_document
 
 Data Cleaning for Raw Tick-Bourne Cases Data - 2019 to 2024
 
-
 ```{r}
 library(readxl)  # For loading Excel files
 library(dplyr)   # For data processing/cleaning
@@ -45,6 +44,7 @@ head(rawdata)
 # Nice visualization of data
 skimr::skim(rawdata)
 ```
+
 The first cleaning step removes cases where the STATUS field is either missing or not labeled as "CONFIRMED." This ensures that only officially confirmed cases are included in further analysis. The cleaned dataset is then saved for future reference.
 
 ```{r}
@@ -85,6 +85,7 @@ cleaned_data %>%
   kableExtra::column_spec(2:8, width = "12em") %>%  # Adjust column widths for readability
   kableExtra::row_spec(0, bold = TRUE, background = "#34495E", color = "white")  # Style header row
 ```
+
 To refine the dataset further, only cases with a confirmed "positive" test result are retained. Any cases with missing, blank, or ambiguous results (such as "inconclusive") are excluded. This step eliminated 15 cases that did not meet the case definition used in Georgia, leaving 95 valid data points. However, upon further review, I noticed that additional positive cases that were not explicitly labeled "positive" were inadvertently removed, prompting a refinement of the filtering criteria.
 
 ```{r}
@@ -105,7 +106,8 @@ kableExtra::kable(cleaned_data2, format = "html", caption = "Final Cleaned Data 
   kableExtra::column_spec(2:ncol(cleaned_data2), width = "10em") %>%  # Adjust column widths
   kableExtra::row_spec(0, bold = TRUE, background = "#34495E", color = "white")  # Header row styling
 ```
-This step provided an easier summary table of some of the most relevant information on these positive cases. 
+
+This step provided an easier summary table of some of the most relevant information on these positive cases.
 
 ```{r}
 ## ---- display only a few of the columns --------
@@ -125,7 +127,9 @@ kableExtra::kable(selected_columns_data, format = "html", caption = "Selected Co
   kableExtra::column_spec(1:ncol(selected_columns_data), width = "12em") %>%  # Adjust column widths
   kableExtra::row_spec(0, bold = TRUE, background = "#2C3E50", color = "white")  # Header row styling
 ```
+
 A second round of filtering ensures that all positive cases are correctly identified while excluding known non-positive values such as "Negative," "Equivocal," "Not detected," and other irrelevant entries. The updated dataset is saved again for consistency.
+
 ```{r}
 ## ---- clean_data_step3--------
 # Define values to exclude from RESULT1
@@ -143,7 +147,9 @@ saveRDS(cleaned_data3, file = cleaned_data3_save_location)
 nrow(cleaned_data3)
 
 ```
+
 To present the cleaned data effectively, selected key columns—including DISEASE, STATUS, COUNTY, GENDER, AGE, LABTEST1, and RESULT1—are displayed in a professionally styled table using the kableExtra package. This enhances readability and makes it easier to analyze trends.
+
 ```{r}
 ## ---- display only a few of the columns --------
 
@@ -163,7 +169,9 @@ kableExtra::kable(selected_columns_data, format = "html", caption = "Selected Co
   kableExtra::row_spec(0, bold = TRUE, background = "#2C3E50", color = "white")  # Header row styling
 
 ```
-A histogram is created to visualize the distribution of different tick-borne diseases in Georgia between 2019 and 2024. The ggplot2 package is used to generate a clean and informative bar chart, illustrating the most prevalent diseases. 
+
+A histogram is created to visualize the distribution of different tick-borne diseases in Georgia between 2019 and 2024. The ggplot2 package is used to generate a clean and informative bar chart, illustrating the most prevalent diseases.
+
 ```{r}
 ## ---- disease_histogram --------
 library(ggplot2)
@@ -195,7 +203,9 @@ dir.create(here::here("results", "figures"), recursive = TRUE, showWarnings = FA
 # Save the plot
 ggsave(filename = save_plot_location, plot = disease_plot, width = 12, height = 6, dpi = 300)
 ```
+
 To explore the severity of Rocky Mountain Spotted Fever cases, a box plot of TITER1 values (log-transformed for better visualization) is created. This helps in understanding the spread and variability of test results among confirmed cases. It also is considered relatively analagous to the patterns seen in Alpha-Gal Syndrome, which is a topic of interest for me, but is not explicitly included in this data set as it is currently not a reportable disease in Georgia.
+
 ```{r}
 # Save the plot
 ggsave(filename = save_plot_location, plot = disease_plot, width = 12, height = 6, dpi = 300)
@@ -233,7 +243,9 @@ save_rmsf_plot_location <- here::here("results", "figures", "rmsf_titer_boxplot_
 ggsave(filename = save_rmsf_plot_location, plot = rmsf_titer_plot, width = 8, height = 6, dpi = 300)
 
 ```
+
 The dataset is filtered to determine the five most common tick-borne diseases. A bar chart is created to highlight the case count for each of these diseases, providing an overview of the most significant public health concerns.
+
 ```{r}
 # Load necessary libraries
 library(ggplot2)
@@ -289,6 +301,7 @@ ggsave(filename = save_top5_disease_plot, plot = top5_disease_plot, width = 8, h
 message("Plot saved successfully at: ", save_top5_disease_plot)
 
 ```
+
 Lyme Disease is likewise similar to Alpha-gal. So, a specific analysis is conducted for Lyme Disease cases, focusing on test results was conducted. Below ia a count histogram generated to compare positive, negative, and other test outcomes, offering insights into testing patterns and diagnosis rates.
 
 ```{r}
@@ -385,7 +398,9 @@ ggsave(filename = save_disease_county_plot, plot = disease_county_plot, width = 
 message("Plot saved successfully at: ", save_disease_county_plot)
 
 ```
+
 To look at trends in disease burden as well as "hot-spot" counties, I generated the stacked bar graph below.
+
 ```{r}
 # Load necessary libraries
 library(ggplot2)
@@ -461,7 +476,9 @@ message("Plot saved successfully at: ", save_top5_stacked_plot)
 
 
 ```
-Age distribution might be of interest in the analysis, so this was checked as part of this initial data cleaning. This output shows 0 rows of the cleaned data to be missing ages. As an exploratory analysis, I looked at disease count by age group from my cleaned data set. 
+
+Age distribution might be of interest in the analysis, so this was checked as part of this initial data cleaning. This output shows 0 rows of the cleaned data to be missing ages. As an exploratory analysis, I looked at disease count by age group from my cleaned data set.
+
 ```{r}
 missing_age_rows <- cleaned_data3 %>%
   filter(is.na(AGE))
@@ -502,9 +519,11 @@ ggsave(
 age_group_plot
 
 ```
-Another thing that might be used in my analysis to answer the question of how data completeness evolved over time is cleaning the data to extract data onset information. 
+
+Another thing that might be used in my analysis to answer the question of how data completeness evolved over time is cleaning the data to extract data onset information.
 
 By distinguishing between Blank and Text in the STATUS column over time, this plot helps pinpoint periods with high missingness. If there are spikes in Blank values at certain times, it could indicate data entry issues, system errors, or gaps in reporting that need to be addressed before deeper analysis.
+
 ```{r}
 library(ggplot2)
 library(dplyr)
@@ -588,13 +607,14 @@ kableExtra::kable(summary_table, format = "html", caption = "Extracted Date Info
   kableExtra::row_spec(0, bold = TRUE, background = "#2C3E50", color = "white")  # Header row styling
 
 ```
+
 Another question that I want to analyze later and therefore needed to clean for was What is the timeline between key dates (onset, lab test, and date of entry), excluding same-day onset and lab results, and how does this timeline vary over time? One thing I have noticed in my internship work on tick-bourne illness is the huge issue with loss-to-follow-up.
 
 The code below calculate the time differences between key dates. The script then calculates the number of days between the onset date (DOO) and the first lab date (LABDATE1), between the first and second lab dates (LABDATE2), and between the second lab date and the update date (UPDATEDATE). These values are summed to determine the total duration of each case.
 
-This processed dataset is then saved as a CSV file for further analysis. The script also generates a formatted HTML table to display the extracted time information in a structured manner. 
+This processed dataset is then saved as a CSV file for further analysis. The script also generates a formatted HTML table to display the extracted time information in a structured manner.
 
-Once I took a look at this table, however, there were big issues. Namely, that negative time (in days) was recorded between the initial lab result and the follow up test. I wrote further code to remove these values because it is not able to be determined what the proper date was due to user error. I added a filter accordingly. 
+Once I took a look at this table, however, there were big issues. Namely, that negative time (in days) was recorded between the initial lab result and the follow up test. I wrote further code to remove these values because it is not able to be determined what the proper date was due to user error. I added a filter accordingly.
 
 ```{r}
 library(dplyr)
