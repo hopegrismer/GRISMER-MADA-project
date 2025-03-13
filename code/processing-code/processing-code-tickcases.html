@@ -113,8 +113,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Data Cleaning for Raw Tick-Bourne Cases Data - 2019 to 2024</p>
-<p>The data cleaning and preliminary analysis begins by loading the necessary R libraries for handling data (such as dplyr, tidyr, and readxl), visualizing summaries (skimr), and setting paths (here). The raw data, stored in an Excel file, is imported into R for processing.</p>
-<p>To understand the structure of the dataset, we use glimpse(), head(), and summary() functions. This helps identify column names, data types, and potential inconsistencies such as missing or unexpected values. Additionally, skimr::skim() provides an enhanced overview, giving insights into numerical distributions and missing values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)  <span class="co"># For loading Excel files</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)   <span class="co"># For data processing/cleaning</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -814,19 +812,18 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---- displaytable --------</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Display a professional-looking table</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="sc">%&gt;%</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(DISEASE, AGE, GENDER, COUNTY, STATE, LABDATE1, RESULT1, STATUS) <span class="sc">%&gt;%</span>  <span class="co"># Select key columns for display</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Cleaned Tick-Bourne Disease Cases (2019-2024)"</span>, <span class="at">align =</span> <span class="st">"c"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>),</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"center"</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths for readability</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#34495E"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Style header row</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---- Table --------</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(DISEASE, AGE, GENDER, COUNTY, STATE, LABDATE1, RESULT1, STATUS) <span class="sc">%&gt;%</span>  <span class="co"># Select key columns for display</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Cleaned Tick-Bourne Disease Cases (2019-2024)"</span>, <span class="at">align =</span> <span class="st">"c"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"center"</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths for readability</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#34495E"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Style header row</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="table-responsive">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
@@ -1966,8 +1963,9 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display professional table for second cleaning step</span></span>
 <span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(cleaned_data2, <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Final Cleaned Data After Removing Blank RESULT1 Cases"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(cleaned_data2), <span class="at">width =</span> <span class="st">"10em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#34495E"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight first column</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(cleaned_data2), <span class="at">width =</span> <span class="st">"10em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#34495E"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="table-responsive">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
@@ -2008,7 +2006,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2019-10-15</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2040,7 +2038,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2019-08-16</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-12-04</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2072,7 +2070,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2019-08-19</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-12-04</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2104,7 +2102,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2019-09-13</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-12-04</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2136,7 +2134,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2019-10-02</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2020-06-26</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2168,7 +2166,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2020-01-14</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2021-01-20</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2200,7 +2198,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2020-06-16</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2020-11-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2232,7 +2230,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2020-09-04</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2020-11-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2264,7 +2262,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2020-08-18</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2020-11-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2296,7 +2294,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2020-10-05</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-11-07</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2328,7 +2326,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-07-02</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2021-11-02</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2360,7 +2358,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-08-11</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-11-07</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2392,7 +2390,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-07-12</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2021-08-20</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2424,7 +2422,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-08-09</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2021-08-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2456,7 +2454,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-08-11</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2021-11-30</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2488,7 +2486,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-08-25</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2021-10-21</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2520,7 +2518,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-09-09</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2021-10-21</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2552,7 +2550,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2021-09-09</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-18</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2584,7 +2582,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-02-07</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2022-09-30</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2616,7 +2614,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-03-24</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-07-21</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2648,7 +2646,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-08</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-07-25</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2680,7 +2678,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-09</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2022-06-15</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2712,7 +2710,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-07</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2022-12-06</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2744,7 +2742,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-05-16</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2022-08-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2776,7 +2774,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-07</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-04-16</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2808,7 +2806,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-06</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2022-11-02</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2840,7 +2838,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-02</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-07-25</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2872,7 +2870,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-24</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2022-08-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2904,7 +2902,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-06-29</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-05</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2936,7 +2934,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-02</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -2968,7 +2966,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-04</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-19</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3000,7 +2998,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-04</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-05</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3032,7 +3030,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-02</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-17</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3064,7 +3062,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-02</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">ROCKY MOUNTAIN SPOTTED FEVER</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">ROCKY MOUNTAIN SPOTTED FEVER</td>
 <td style="text-align: left; width: 10em;">2022-11-29</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3096,7 +3094,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-07-25</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-17</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3128,7 +3126,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-04</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-17</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3160,7 +3158,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-04</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2023-06-07</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3192,7 +3190,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-12-12</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2022-08-05</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3224,7 +3222,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-02</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-08-17</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3256,7 +3254,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-04</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-09-01</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3288,7 +3286,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-16</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-09-01</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3320,7 +3318,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-16</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-09-22</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3352,7 +3350,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-08-30</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-09-23</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3384,7 +3382,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-09-19</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-12-09</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3416,7 +3414,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-10-12</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2022-12-15</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3448,7 +3446,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2022-12-07</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3480,7 +3478,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-11-28</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-06-28</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3512,7 +3510,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-05-28</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3544,7 +3542,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-03-27</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3576,7 +3574,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-05-01</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3608,7 +3606,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-06-07</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3640,7 +3638,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-06-06</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3672,7 +3670,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-06-06</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3704,7 +3702,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-06-28</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3736,7 +3734,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-08-22</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3768,7 +3766,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-07-06</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">ANAPLASMA PHAGOCYTOPHILUM</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">ANAPLASMA PHAGOCYTOPHILUM</td>
 <td style="text-align: left; width: 10em;">2024-07-31</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3800,7 +3798,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-07-19</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3832,7 +3830,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-08-18</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">ROCKY MOUNTAIN SPOTTED FEVER</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">ROCKY MOUNTAIN SPOTTED FEVER</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3864,7 +3862,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-08-10</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2023-09-12</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3896,7 +3894,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-07-31</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">BABESIOSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">BABESIOSIS</td>
 <td style="text-align: left; width: 10em;">2024-02-19</td>
 <td style="text-align: left; width: 10em;">DELETED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3928,7 +3926,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-02-01</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3960,7 +3958,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-10-17</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -3992,7 +3990,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2023-10-16</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-06-20</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4024,7 +4022,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-05-28</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">BABESIOSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">BABESIOSIS</td>
 <td style="text-align: left; width: 10em;">2024-05-02</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4056,7 +4054,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-01-31</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-02-13</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4088,7 +4086,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-01-02</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-10-04</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4120,7 +4118,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-30</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4152,7 +4150,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-06-06</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-11-14</td>
 <td style="text-align: left; width: 10em;">NOT CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4184,7 +4182,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-03-25</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4216,7 +4214,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-05-17</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-10-22</td>
 <td style="text-align: left; width: 10em;">NOT CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4248,7 +4246,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-04-29</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4280,7 +4278,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-06-28</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-10-18</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4312,7 +4310,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-24</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">EHRLICHIA CHAFFEENSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA CHAFFEENSIS</td>
 <td style="text-align: left; width: 10em;">2024-08-22</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4344,7 +4342,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-10</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">EHRLICHIA EWINGII</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">EHRLICHIA EWINGII</td>
 <td style="text-align: left; width: 10em;">2024-11-14</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4376,7 +4374,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-17</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">DENGUE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">DENGUE</td>
 <td style="text-align: left; width: 10em;">2024-08-22</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4408,7 +4406,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-23</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-08-22</td>
 <td style="text-align: left; width: 10em;">DELETED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4440,7 +4438,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-12</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4472,7 +4470,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-08-13</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">DENGUE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">DENGUE</td>
 <td style="text-align: left; width: 10em;">2024-10-22</td>
 <td style="text-align: left; width: 10em;">NOT CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4504,7 +4502,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-18</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-08-06</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4536,7 +4534,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-29</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">DENGUE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">DENGUE</td>
 <td style="text-align: left; width: 10em;">2024-08-22</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4568,7 +4566,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-23</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">DENGUE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">DENGUE</td>
 <td style="text-align: left; width: 10em;">2024-10-17</td>
 <td style="text-align: left; width: 10em;">DELETED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4600,7 +4598,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-08-05</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">DENGUE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">DENGUE</td>
 <td style="text-align: left; width: 10em;">2024-10-22</td>
 <td style="text-align: left; width: 10em;">NOT CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4632,7 +4630,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-07-18</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">DENGUE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">DENGUE</td>
 <td style="text-align: left; width: 10em;">2024-08-23</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4664,7 +4662,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-08-20</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-09-12</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4696,7 +4694,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-08-15</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">BABESIOSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">BABESIOSIS</td>
 <td style="text-align: left; width: 10em;">2024-12-05</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4728,7 +4726,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-09-16</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-08-23</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4760,7 +4758,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-08-16</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-09-06</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4792,7 +4790,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-08-26</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">DENGUE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">DENGUE</td>
 <td style="text-align: left; width: 10em;">2024-09-18</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4824,7 +4822,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-09-16</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-09-06</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4856,7 +4854,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-09-03</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-10-11</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4888,7 +4886,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-09-12</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-10-25</td>
 <td style="text-align: left; width: 10em;">DELETED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4920,7 +4918,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-09-25</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">LYME DISEASE</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">LYME DISEASE</td>
 <td style="text-align: left; width: 10em;">2024-12-03</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4952,7 +4950,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-11-05</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-11-25</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -4984,7 +4982,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-10-30</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; width: 10em;">WEST NILE (WNV) INFECTION</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">WEST NILE (WNV) INFECTION</td>
 <td style="text-align: left; width: 10em;">2024-12-16</td>
 <td style="text-align: left; width: 10em;">DELETED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -5016,7 +5014,7 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 <td style="text-align: left; width: 10em;">2024-10-22</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; width: 10em;">BABESIOSIS</td>
+<td style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(44, 62, 80, 255) !important;">BABESIOSIS</td>
 <td style="text-align: left; width: 10em;">2025-01-27</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
 <td style="text-align: left; width: 10em;">CONFIRMED</td>
@@ -7122,6 +7120,7 @@ Caused by warning:
 <pre><code>Plot saved successfully at: /Users/hopegrismercomputer/Desktop/MADA-course/GRISMER-MADA-project/results/figures/disease_county_plot.png</code></pre>
 </div>
 </div>
+<p>To look at trends in disease burden as well as “hot-spot” counties, I generated the stacked bar graph below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -7287,7 +7286,7 @@ Attaching package: 'lubridate'</code></pre>
 <span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(statuscompleteness_summary, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"cleaned_statuscompleteness_summary.csv"</span>))</span>
 <span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create improved line plot</span></span>
-<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(statuscompleteness_summary, <span class="fu">aes</span>(<span class="at">x =</span> Month, <span class="at">y =</span> Count, <span class="at">color =</span> Status_Category, <span class="at">group =</span> Status_Category)) <span class="sc">+</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>status_completeness_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(statuscompleteness_summary, <span class="fu">aes</span>(<span class="at">x =</span> Month, <span class="at">y =</span> Count, <span class="at">color =</span> Status_Category, <span class="at">group =</span> Status_Category)) <span class="sc">+</span></span>
 <span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  <span class="co"># Adjust line thickness</span></span>
 <span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span>  <span class="co"># Reduce point size &amp; add transparency</span></span>
 <span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span>  <span class="co"># Add smoothed trendline</span></span>
@@ -7301,6 +7300,18 @@ Attaching package: 'lubridate'</code></pre>
 <pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ℹ Please use `linewidth` instead.</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot to results/figures using here::here()</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"status_completeness_plot.png"</span>), </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> status_completeness_plot, </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">8</span>, </span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">6</span>, </span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">300</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>status_completeness_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -7313,46 +7324,46 @@ Attaching package: 'lubridate'</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract year and month from the selected date columns</span></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>processed_date_data <span class="ot">&lt;-</span> rawdata <span class="sc">%&gt;%</span></span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">UPDATE_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(UPDATEDATE)),</span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">UPDATE_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(UPDATEDATE), <span class="at">label =</span> <span class="cn">TRUE</span>),  <span class="co"># Extract month name</span></span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">DOO_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(DOO)),</span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">DOO_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(DOO), <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB1_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(LABDATE1)),</span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB1_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(LABDATE1), <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB2_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(LABDATE2)),</span>
-<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB2_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(LABDATE2), <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(UPDATE_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(UPDATE_MONTH) <span class="sc">&amp;</span> </span>
-<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(DOO_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(DOO_MONTH) <span class="sc">&amp;</span> </span>
-<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(LAB1_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(LAB1_MONTH) <span class="sc">&amp;</span> </span>
-<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(LAB2_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(LAB2_MONTH)  <span class="co"># Exclude rows with missing date parts</span></span>
-<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Select key columns for review</span></span>
-<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> processed_date_data <span class="sc">%&gt;%</span></span>
-<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DISEASE, UPDATEDATE, DOO, LABDATE1, LABDATE2)</span>
-<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the cleaned dataset</span></span>
-<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>))  <span class="co"># Ensure directory exists</span></span>
-<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(processed_date_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"processed_dates.csv"</span>))</span>
-<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary Table</span></span>
-<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(summary_table, <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Extracted Date Information for Disease Cases"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
-<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(summary_table), <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
-<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract year and month from the selected date columns</span></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>processed_date_data <span class="ot">&lt;-</span> rawdata <span class="sc">%&gt;%</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">UPDATE_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(UPDATEDATE)),</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">UPDATE_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(UPDATEDATE), <span class="at">label =</span> <span class="cn">TRUE</span>),  <span class="co"># Extract month name</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">DOO_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(DOO)),</span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">DOO_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(DOO), <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB1_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(LABDATE1)),</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB1_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(LABDATE1), <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB2_YEAR =</span> <span class="fu">year</span>(<span class="fu">ymd</span>(LABDATE2)),</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB2_MONTH =</span> <span class="fu">month</span>(<span class="fu">ymd</span>(LABDATE2), <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(UPDATE_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(UPDATE_MONTH) <span class="sc">&amp;</span> </span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(DOO_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(DOO_MONTH) <span class="sc">&amp;</span> </span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(LAB1_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(LAB1_MONTH) <span class="sc">&amp;</span> </span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(LAB2_YEAR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(LAB2_MONTH)  <span class="co"># Exclude rows with missing date parts</span></span>
+<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Select key columns for review</span></span>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> processed_date_data <span class="sc">%&gt;%</span></span>
+<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DISEASE, UPDATEDATE, DOO, LABDATE1, LABDATE2)</span>
+<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the cleaned dataset</span></span>
+<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>))  <span class="co"># Ensure directory exists</span></span>
+<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(processed_date_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"processed_dates.csv"</span>))</span>
+<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary Table</span></span>
+<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(summary_table, <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Extracted Date Information for Disease Cases"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
+<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(summary_table), <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
+<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="table-responsive">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
@@ -14897,41 +14908,41 @@ Attaching package: 'lubridate'</code></pre>
 <p>This processed dataset is then saved as a CSV file for further analysis. The script also generates a formatted HTML table to display the extracted time information in a structured manner.</p>
 <p>Once I took a look at this table, however, there were big issues. Namely, that negative time (in days) was recorded between the initial lab result and the follow up test. I wrote further code to remove these values because it is not able to be determined what the proper date was due to user error. I added a filter accordingly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate time differences between the dates</span></span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>processed_time_data <span class="ot">&lt;-</span> processed_date_data <span class="sc">%&gt;%</span></span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">DOO_to_LAB1 =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(LABDATE1, DOO, <span class="at">units =</span> <span class="st">"days"</span>)),</span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB1_to_LAB2 =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(LABDATE2, LABDATE1, <span class="at">units =</span> <span class="st">"days"</span>)),</span>
-<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB2_to_UPDATE =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(UPDATEDATE, LABDATE2, <span class="at">units =</span> <span class="st">"days"</span>)),</span>
-<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">TOTAL_DAYS =</span> DOO_to_LAB1 <span class="sc">+</span> LAB1_to_LAB2 <span class="sc">+</span> LAB2_to_UPDATE</span>
-<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with any negative values</span></span>
-<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>processed_time_data2 <span class="ot">&lt;-</span> processed_time_data <span class="sc">%&gt;%</span></span>
-<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">c</span>(DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS), <span class="sc">~</span> . <span class="sc">&gt;=</span> <span class="dv">0</span>))</span>
-<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Select key columns for review</span></span>
-<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>time_summary_table <span class="ot">&lt;-</span> processed_time_data2 <span class="sc">%&gt;%</span></span>
-<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DISEASE, DOO, LABDATE1, LABDATE2, UPDATEDATE, DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS)</span>
-<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the dataset with time differences</span></span>
-<span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>))  <span class="co"># Ensure directory exists</span></span>
-<span id="cb58-28"><a href="#cb58-28" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(processed_time_data2, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"time_between_processeddata.csv"</span>))</span>
-<span id="cb58-29"><a href="#cb58-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-30"><a href="#cb58-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary Table</span></span>
-<span id="cb58-31"><a href="#cb58-31" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(time_summary_table, <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Time Differences Between Key Date Points"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb58-32"><a href="#cb58-32" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb58-33"><a href="#cb58-33" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
-<span id="cb58-34"><a href="#cb58-34" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(time_summary_table), <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
-<span id="cb58-35"><a href="#cb58-35" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate time differences between the dates</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>processed_time_data <span class="ot">&lt;-</span> processed_date_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">DOO_to_LAB1 =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(LABDATE1, DOO, <span class="at">units =</span> <span class="st">"days"</span>)),</span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB1_to_LAB2 =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(LABDATE2, LABDATE1, <span class="at">units =</span> <span class="st">"days"</span>)),</span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">LAB2_to_UPDATE =</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(UPDATEDATE, LABDATE2, <span class="at">units =</span> <span class="st">"days"</span>)),</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">TOTAL_DAYS =</span> DOO_to_LAB1 <span class="sc">+</span> LAB1_to_LAB2 <span class="sc">+</span> LAB2_to_UPDATE</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with any negative values</span></span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>processed_time_data2 <span class="ot">&lt;-</span> processed_time_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">c</span>(DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS), <span class="sc">~</span> . <span class="sc">&gt;=</span> <span class="dv">0</span>))</span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Select key columns for review</span></span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>time_summary_table <span class="ot">&lt;-</span> processed_time_data2 <span class="sc">%&gt;%</span></span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DISEASE, DOO, LABDATE1, LABDATE2, UPDATEDATE, DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS)</span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the dataset with time differences</span></span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>))  <span class="co"># Ensure directory exists</span></span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(processed_time_data2, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"time_between_processeddata.csv"</span>))</span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary Table</span></span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(time_summary_table, <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Time Differences Between Key Date Points"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(time_summary_table), <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="table-responsive">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
