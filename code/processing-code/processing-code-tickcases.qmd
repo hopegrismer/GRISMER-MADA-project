@@ -608,7 +608,7 @@ kableExtra::kable(summary_table, format = "html", caption = "Extracted Date Info
 
 ```
 
-Another question that I want to analyze later and therefore needed to clean for was What is the timeline between key dates (onset, lab test, and date of entry), excluding same-day onset and lab results, and how does this timeline vary over time? One thing I have noticed in my internship work on tick-bourne illness is the huge issue with loss-to-follow-up.
+Another question that I want to analyze later and therefore needed to clean for was "what is the timeline between key dates (onset, lab test, and date of entry), excluding same-day onset and lab results, and how does this timeline vary over time?" One thing I have noticed in my internship work on tick-bourne illness is the huge issue with loss-to-follow-up.
 
 The code below calculate the time differences between key dates. The script then calculates the number of days between the onset date (DOO) and the first lab date (LABDATE1), between the first and second lab dates (LABDATE2), and between the second lab date and the update date (UPDATEDATE). These values are summed to determine the total duration of each case.
 

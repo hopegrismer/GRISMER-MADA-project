@@ -68,7 +68,7 @@ often found in wooded, grassy, or suburban areas. When a tick feeds on
 an infected animal, it can acquire pathogens—such as bacteria, viruses,
 or parasites—that can then be transmitted to humans. Examples of
 tick-bourne diseases include, but are not limited to, Lyme disease,
-anaplasmosis, and babesiosis. These diseases are of increasing public
+Anaplasmosis, and babesiosis. These diseases are of increasing public
 health concern, especially as the geographic range and seasonality of
 ticks expand due to environmental and ecological changes.
 
@@ -142,56 +142,53 @@ therefore, are reported as blank spaces in the data set.
 
 ***II. Initial Data Cleaning Stages***
 
-Looked for Missing Data & General Trends
+**Looked for Missing Data & General Trends**
 
--   Identified Disease Burden Trends & Hotspot Counties
+-   Excluded cases with a missing or non-“CONFIRMED” STATUS to retain
+    only confirmed cases.
+-   Refined the dataset by retaining only confirmed “positive” test
+    results, excluding missing or ambiguous results, leaving 95 valid
+    cases.
+-   Additional filtering ensured correct identification of positive
+    cases while excluding non-positive values.
 
-<!-- -->
+**Identified Disease Burden Trends & Hotspot Counties**
 
--   Generated a stacked bar graph to visualize case distribution across
-    regions. - Checked Age Distribution
+-   Generated a histogram to visualize the distribution of tick-borne
+    diseases in Georgia between 2019 and 2024.
+-   Created a bar chart highlighting the five most common diseases.
+-   Specifically analyzed Lyme Disease cases, focusing on test results.
 
-<!-- -->
+**Checked Age Distribution**
 
 -   Verified that no cases had missing age values in the cleaned
     dataset.
-
-<!-- -->
-
 -   Conducted an exploratory analysis of disease counts by age group.
 
--   Evaluated Data Completeness Over Time
+**Evaluated Data Completeness Over Time**
 
 -   Extracted onset date information to track missing data trends.
-
 -   Created a plot distinguishing between blank and non-blank STATUS
-    entries over time.
+    entries over time to identify periods of high missingness,
+    indicating possible data entry errors or reporting gaps.
 
--   Identified periods of high missingness, which may indicate data
-    entry errors or reporting gaps.
-
-Analyzed Timeline Between Key Case Events
+**Analyzed Timeline Between Key Case Events**
 
 -   Calculated time differences for:
-
     -   Onset date (DOO) to first lab test date (LABDATE1)
-
     -   First lab test (LABDATE1) to second lab test (LABDATE2)
-
     -   Second lab test (LABDATE2) to case update date (UPDATEDATE)
+-   Summed these values to determine the total case duration.
+-   Saved the processed dataset as a CSV file for further analysis.
+-   Created a formatted HTML table to present the extracted time
+    intervals.
 
-    -   Summed these values to determine the total case duration. -
-        Saved the processed dataset as a CSV file for further
-        analysis. - Created a formatted HTML table to present extracted
-        time intervals.
+**Addressed Data Quality Issues**
 
-Addressed Data Quality Issues
-
--   Identified negative time values in lab test dates, indicating data
-    entry errors
-
+-   Identified negative time values between lab test dates, indicating
+    data entry errors.
 -   Implemented a filtering step to remove records with invalid date
-    sequences
+    sequences.
 
 ***III. Analysis Process***
 
@@ -252,6 +249,23 @@ in tick-borne diseases in Georgia between 2019 and 2024: Disease
 Distribution: A histogram illustrates the prevalence of different
 tick-borne diseases, highlighting the most commonly reported cases.
 
+# Results
+
+## Exploratory/Descriptive analysis
+
+*Use a combination of text/tables/figures to explore and describe your
+data. Show the most important descriptive results here. Additional ones
+should go in the supplement. Even more can be in the R and Quarto files
+that are part of your project.*
+
+Note the loading of the data providing a **relative** path using the
+`../../` notation. (Two dots means a folder up). You never want to
+specify an **absolute** path like `C:\ahandel\myproject\results\`
+because if you share this with someone, it won't work for them since
+they don't have that path. You can also use the `here` R package to
+create paths. See examples of that below. I generally recommend the
+`here` package.
+
 **Rocky Mountain Spotted Fever (RMSF) Severity:**
 
 A box plot of TITER1 values (log-transformed for better visualization)
@@ -289,14 +303,13 @@ img_path <- here::here("results", "figures", "disease_histogram.png")
 knitr::include_graphics(img_path)
 ```
 
+**Lyme Disease Analysis:**
 
-**Lyme Disease Analysis:** 
-
-Given its similarity to Alpha-Gal Syndrome
-(which is of interest to me and the topic of my capstone), Lyme Disease
-cases are analyzed separately. A count histogram compares positive,
-negative, and other test outcomes, providing insights into testing
-patterns and diagnosis rates.
+Given its similarity to Alpha-Gal Syndrome (which is of interest to me
+and the topic of my capstone), Lyme Disease cases are analyzed
+separately. A count histogram compares positive, negative, and other
+test outcomes, providing insights into testing patterns and diagnosis
+rates.
 
 ```{r}
 library(here)
@@ -310,13 +323,14 @@ knitr::include_graphics(img_path)
 
 ```
 
-**Geographic Distribution:** 
+**Geographic Distribution:**
 
-A grouped bar chart maps case counts across
-Georgia counties, categorized by disease type. Due to the density of
-information, this visualization is refined to focus on the top five
-tick-borne diseases and their distribution across the 12 counties with
-the highest confirmed case counts.
+A grouped bar chart maps case counts across Georgia counties,
+categorized by disease type. Due to the density of information, this
+visualization is refined to focus on the top five tick-borne diseases
+and their distribution across the 12 counties with the highest confirmed
+case counts.
+
 ```{r}
 library(here)
 library(knitr)
@@ -332,18 +346,18 @@ img_paths <- c(
 knitr::include_graphics(img_paths)
 ```
 
-
 To analyze disease burden trends and identify hotspot counties, a
 stacked bar graph is generated to visualize case distribution across
 different regions.
 
 **Age Distribution Analysis**
 
-Age distribution is assessed as part of
-the initial data cleaning process, confirming that no cases in the
-cleaned dataset have missing age values. Additionally, an exploratory
-analysis examines disease counts by age group to identify potential
-patterns in disease prevalence.
+Age distribution is assessed as part of the initial data cleaning
+process, confirming that no cases in the cleaned dataset have missing
+age values. Additionally, an exploratory analysis examines disease
+counts by age group to identify potential patterns in disease
+prevalence.
+
 ```{r}
 library(here)
 library(knitr)
@@ -355,15 +369,14 @@ img_path <- here::here("results", "figures", "disease_count_by_age.png")
 knitr::include_graphics(img_path)
 ```
 
+**Data Completeness Over Time**
 
-**Data Completeness Over Time** 
-To evaluate how data completeness has
-evolved, the dataset is processed to extract onset date information. A
-visualization distinguishes between blank and non-blank entries in the
-STATUS column over time, helping to identify periods with high
-missingness. Spikes in blank values may indicate data entry errors,
-system issues, or reporting gaps that should be addressed before
-conducting further analysis.
+To evaluate how data completeness has evolved, the dataset is processed
+to extract onset date information. A visualization distinguishes between
+blank and non-blank entries in the STATUS column over time, helping to
+identify periods with high missingness. Spikes in blank values may
+indicate data entry errors, system issues, or reporting gaps that should
+be addressed before conducting further analysis.
 
 ```{r}
 library(here)
@@ -380,11 +393,11 @@ knitr::include_graphics(img_path)
 loss-to-follow-up observed in tick-borne illness reporting, an analysis
 is conducted to examine time gaps between critical dates, including:
 
-**Onset date (DOO) to first lab test date (LABDATE1)**
+-   **Onset date (DOO) to first lab test date (LABDATE1)**
 
-**First lab test (LABDATE1) to second lab test (LABDATE2)**
+-   **First lab test (LABDATE1) to second lab test (LABDATE2)**
 
-**Second lab test (LABDATE2) to case update date (UPDATEDATE)**
+-   **Second lab test (LABDATE2) to case update date (UPDATEDATE)**
 
 These durations are summed to determine the total case timeline for each
 record. The processed dataset is saved as a CSV file for further
@@ -399,28 +412,133 @@ follow-up test dates occurred before initial lab dates.
 
 ## Statistical analysis
 
-*Explain anything related to your statistical analyses.*
-
 {{< pagebreak >}}
 
-# Results
-
-## Exploratory/Descriptive analysis
-
-*Use a combination of text/tables/figures to explore and describe your
-data. Show the most important descriptive results here. Additional ones
-should go in the supplement. Even more can be in the R and Quarto files
-that are part of your project.*
-
-Note the loading of the data providing a **relative** path using the
-`../../` notation. (Two dots means a folder up). You never want to
-specify an **absolute** path like `C:\ahandel\myproject\results\`
-because if you share this with someone, it won't work for them since
-they don't have that path. You can also use the `here` R package to
-create paths. See examples of that below. I generally recommend the
-`here` package.
-
 ## Basic statistical analysis
+
+For the first key question related to the disease trends over time (in
+years). In looking at the plot, it appears that there have been
+increases over time were observed in most of the diseases. However, the
+rate of increase was relatively slow as indicated by the lack of
+statistical significance of these trends (p\>0.5) which may indicate an
+attribution to the increase in reporting rather than an increase in
+overall disease burden. In the full analysis and second iteration of
+this, these trends will be compared year to year, comparing each year to
+the 2018 standard.
+
++------------+------------+------------+------------+------------+
+| term       | estimate   | std.error  | statistic  | p.value    |
+|            |            |            |            |            |
+| \<chr\>    | \<dbl\>    | \<dbl\>    | \<dbl\>    | \<dbl\>    |
++:===========+===========:+===========:+===========:+===========:+
+| (          | -2         | 1          | -          | 0.1729390  |
+| Intercept) | 3          | 573.052665 | 1.48025251 |            |
+|            | 28.5151515 |            |            |            |
++------------+------------+------------+------------+------------+
+| YEAR       | 1.1515152  | 0.777581   | 1.48089418 | 0.1727716  |
++------------+------------+------------+------------+------------+
+| DISEAS     | 0.4242424  | 5.484565   | 0.07735207 | 0.9400358  |
+| E          |            |            |            |            |
+| BABESIOSIS |            |            |            |            |
++------------+------------+------------+------------+------------+
+| DI         | 4.8484848  | 6.364775   | 0.76176850 | 0.4656907  |
+| S          |            |            |            |            |
+| EASEDENGUE |            |            |            |            |
++------------+------------+------------+------------+------------+
+| DISEA      | 5.0000000  | 5.157889   | 0.96938889 | 0.3576794  |
+| S          |            |            |            |            |
+| EEHRLICHIA |            |            |            |            |
+| C          |            |            |            |            |
+| HAFFEENSIS |            |            |            |            |
++------------+------------+------------+------------+------------+
+| DISEA      | -1.1515152 | 6.364775   | -          | 0.8604390  |
+| S          |            |            | 0.18092002 |            |
+| EEHRLICHIA |            |            |            |            |
+| EWINGII    |            |            |            |            |
++------------+------------+------------+------------+------------+
+| D          | 8.5606061  | 4.963745   | 1.72462659 | 0.1186814  |
+| ISEASELYME |            |            |            |            |
+| DISEASE    |            |            |            |            |
++------------+------------+------------+------------+------------+
+| D          | 0.5757576  | 5.484565   | 0.10497781 | 0.9186958  |
+| I          |            |            |            |            |
+| SEASEROCKY |            |            |            |            |
+| MOUNTAIN   |            |            |            |            |
+| SPOTTED    |            |            |            |            |
+| FEVER      |            |            |            |            |
++------------+------------+------------+------------+------------+
+| D          | 8.2272727  | 5.593721   | 1.47080497 | 0.1754208  |
+| ISEASEWEST |            |            |            |            |
+| NILE (WNV) |            |            |            |            |
+| INFECTION  |            |            |            |            |
++------------+------------+------------+------------+------------+
+
+9 rows
+
+```{r}
+library(here)
+library(knitr)
+
+# Generate correct file path
+img_path <- here::here("results", "figures", "trend_over_time_by_disease.png")
+
+# Display the image
+knitr::include_graphics(img_path)
+```
+
+The most interesting finding from the initial modeling was in relation
+to the data completeness research question. In modeling the differences
+across time in whether a final STATUS was inputted rather than left
+blank, a general decrease was seen across the full 2018-2024 time scale.
+Specifically, completion rates of the reporting form were approximately
+50% in 2018 but dropped rapidly to 20% in 2019-- around which the rate
+of completeness has hovered since 2019. However, in linear modeling, the
+changes across time in the aggregate, p \> 0.05.
+
+```{r}
+library(here)
+library(knitr)
+
+# Generate correct file path
+img_path <- here::here("results", "figures", "completeness_over_time.png")
+
+# Display the image
+knitr::include_graphics(img_path)
+
+```
+
++------------+------------+------------+------------+------------+
+| term       | estimate   | std.error  | statistic  | p.value    |
+|            |            |            |            |            |
+| \<chr\>    | \<dbl\>    | \<dbl\>    | \<dbl\>    | \<dbl\>    |
++:===========+===========:+===========:+===========:+===========:+
+| (          | 9          | 5          | 1.733920   | 0.1434648  |
+| Intercept) | 935.267857 | 729.946482 |            |            |
++------------+------------+------------+------------+------------+
+| YEAR       | -4.910714  | 2.835202   | -1.732051  | 0.1438108  |
++------------+------------+------------+------------+------------+
+
+2 rows
+
+On a positive note for the utilization of the reporting system and
+trends towards better tick-bourne disease response, there has been
+statistically significant decreases in the time between oneset and an
+initial lab visit/interaction. In 2018, the average time between these
+two occurrences ranged from approximately 150-520 days. With marked
+decreases, the 2024 data indicates that patients with tick-bourne
+disease occurrences may be interacting with providers or lab testing in
+the same month, same week or even same day.
+
+```{r}
+library(here)
+library(knitr)
+
+# Generate correct file path
+img_path <- here::here("results", "figures", "days_to_lab_over_time.png")
+
+# Display the image
+knitr::include_graphics(img_path)
+```
 
 ## Full analysis
 

@@ -1,0 +1,230 @@
+---
+title: "Data Analysis for Raw Tick-Bourne Cases Data - 2019 to 2024"
+author: "Hope Grismer"
+date: "2025-03-10"
+output: html_document
+---
+
+######################################
+# analysis script
+#
+# This script loads the processed, cleaned data, does a simple analysis
+# and saves the results to the results folder.
+
+First, load all the libraries needed for tidymodels, multivariable GLM, and data visualization.
+
+```{r}
+library(tidymodels)  # For tidymodels framework
+library(ggplot2)     # For data visualization
+library(dplyr)       # For data manipulation
+library(lubridate)   # For date manipulation
+library(readr)       # For reading and writing CSV files
+library(fs)          # For file system operations
+library(broom)       # For tidying up GLM results
+library(here)        # for data loading/saving
+```
+
+Then, load the cleaned datasets.
+
+```{r}
+# Load the cleaned dataset
+cleaned_data2 <- readRDS(here::here("data", "processed-data", "Tick-Bourne_Cases_Cleaned_Step2.rds"))
+processed_time_data2 <- read_csv(here::here("data", "processed-data", "time_between_processeddata.csv"))
+
+```
+
+While the processing code creation involved some exploratory data analysis (EDA) already to help me determine what cleaning needed to be done, additional EDA helped find patterns in data to analyze further. See below.
+
+```{r}
+
+# Visualize time differences (e.g., DOO to LAB1)
+ggplot(processed_time_data2, aes(x = DOO_to_LAB1)) +
+  geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+  theme_minimal() +
+  labs(title = "Distribution of Time from DOO to LAB1 (in days)", 
+       x = "Days from DOO to LAB1", y = "Frequency")
+
+```
+
+######################################
+# Data fitting/statistical analysis
+#####################################
+
+```{r}
+# Path to the cleaned data (after saving it)
+cleaned_data3 <- readRDS(here::here("data", "processed-data", "Tick-Bourne_Cases_Final_Cleaned.rds"))
+```
+
+```{r}
+# 1. Disease trends over time:
+# Extract YEAR from DOO (assuming DOO is a Date column)
+cleaned_data3 <- cleaned_data3 %>%
+  mutate(YEAR = as.integer(format(as.Date(DOO, format = "%Y-%m-%d"), "%Y")))
+
+# Count cases grouped by DISEASE type and YEAR
+disease_counts <- cleaned_data3 %>%
+  group_by(DISEASE, YEAR) %>%
+  summarise(CASE_COUNT = n(), .groups = "drop")
+
+# Fit a linear model for yearly trend in cases (by DISEASE)
+lmfit1 <- lm(CASE_COUNT ~ YEAR + DISEASE, data = disease_counts)
+lmtable1 <- broom::tidy(lmfit1)
+print(lmtable1)
+
+# Save fit results
+table_file1 <- here::here("results", "tables", "trend_over_time_by_disease.rds")
+saveRDS(lmtable1, file = table_file1)
+
+# Plot yearly trend by disease
+plot1 <- ggplot(disease_counts, aes(x = YEAR, y = CASE_COUNT, color = DISEASE)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Vector-Borne Diseases Over Time by Disease",
+    x = "Year",
+    y = "Number of Cases"
+  ) +
+  theme_minimal()
+
+plot1
+
+# Save plot
+plot_file1 <- here::here("results", "figures", "trend_over_time_by_disease.png")
+ggsave(plot_file1, plot = plot1, width = 8, height = 6, dpi = 300)
+```
+
+```{r}
+# 2. Distribution Across Health Districts:
+# Bar plot of cases by health district
+plot2 <- ggplot(cleaned_data3, aes(x = COUNTY, fill = DISEASE)) +
+  geom_bar() +
+  labs(
+    title = "Cases by Health District",
+    x = "Health District",
+    y = "Number of Cases"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+plot2
+
+# Save plot
+plot_file2 <- here::here("results", "figures", "cases_by_health_district.png")
+ggsave(plot_file2, plot = plot2, width = 8, height = 6, dpi = 300)
+```
+
+
+```{r}
+# 3. Completeness 
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(broom)  # for tidying model results
+library(readr)  # for reading CSV files
+
+# Load the cleaned data (adjust path as needed)
+statuscompleteness_summary_location <- here::here("data", "processed-data", "cleaned_statuscompleteness_summary.csv")
+statuscompleteness_summary <- read_csv(statuscompleteness_summary_location)
+
+# 1. Data Completeness Analysis Over Time:
+# Summarize completeness over time
+completeness_summary <- statuscompleteness_summary %>%
+  mutate(YEAR = year(Month)) %>%
+  group_by(YEAR) %>%
+  summarise(COMPLETENESS = mean(Count) / sum(Count) * 100, .groups = "drop")  # Calculate completeness as percentage
+
+# Linear Model: Analyze the relationship between YEAR and COMPLETENESS
+lm_completeness <- lm(COMPLETENESS ~ YEAR, data = completeness_summary)
+
+# Summarize the linear model results
+lm_completeness_summary <- broom::tidy(lm_completeness)
+print(lm_completeness_summary)
+
+# 2. Create the completeness plot with linear trendline
+plot3 <- ggplot(completeness_summary, aes(x = YEAR, y = COMPLETENESS)) +
+  geom_line(color = "darkgreen") +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +  # Add linear model trendline
+  labs(
+    title = "Data Completeness Over Time",
+    x = "Year",
+    y = "Completeness (%)"
+  ) +
+  theme_minimal()
+
+# Print the plot
+plot3
+
+# Save the plot to the results/figures folder
+plot_file3 <- here::here("results", "figures", "completeness_over_time.png")
+ggsave(plot_file3, plot = plot3, width = 8, height = 6, dpi = 300)
+
+```
+
+```{r}
+# 4. Timeline Between Key Dates:
+# Fit a model for days between onset and lab over time
+filtered_time_data <- cleaned_data3 %>%
+  filter(!is.na(LABDATE1) & !is.na(DOO) & (LABDATE1 > DOO))
+
+# Calculate the days between onset and lab result (assuming DATEONSET and LABDATE1 are in Date format)
+filtered_time_data <- filtered_time_data %>%
+  mutate(DAYS_TO_LAB = as.integer(LABDATE1 - DOO))
+
+lmfit2 <- lm(DAYS_TO_LAB ~ YEAR, data = filtered_time_data)
+lmtable2 <- broom::tidy(lmfit2)
+print(lmtable2)
+
+# Save fit results
+table_file2 <- here::here("results", "tables", "days_to_lab_over_time.rds")
+saveRDS(lmtable2, file = table_file2)
+
+# Plot days between onset and lab over time
+plot4 <- ggplot(filtered_time_data, aes(x = YEAR, y = DAYS_TO_LAB)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", color = "red") +
+  labs(
+    title = "Days Between Onset and Lab Processing Over Time",
+    x = "Year",
+    y = "Days Between Onset and Lab"
+  ) +
+  theme_minimal()
+
+plot4
+
+# Save plot
+plot_file4 <- here::here("results", "figures", "days_to_lab_over_time.png")
+ggsave(plot_file4, plot = plot4, width = 8, height = 6, dpi = 300)
+
+```
+
+```{r}
+# 5. Relative Incidence of Disease Pathologies (2019–2024):
+# Filter data for years 2019–2024
+incidence_data <- cleaned_data3 %>%
+  filter(YEAR >= 2019 & YEAR <= 2024)
+
+# Group and calculate incidence by disease
+incidence_summary <- incidence_data %>%
+  group_by(YEAR, DISEASE) %>%
+  summarise(INCIDENCE = n()) %>%
+  ungroup()
+
+# Plot relative incidence over time
+plot5 <- ggplot(incidence_summary, aes(x = YEAR, y = INCIDENCE, color = DISEASE)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Relative Incidence of Disease Pathologies (2019–2024)",
+    x = "Year",
+    y = "Incidence"
+  ) +
+  theme_minimal()
+
+plot5
+
+# Save plot
+plot_file5 <- here::here("results", "figures", "relative_incidence_2019_2024.png")
+ggsave(plot_file5, plot = plot5, width = 8, height = 6, dpi = 300)
+```
+
+
+
