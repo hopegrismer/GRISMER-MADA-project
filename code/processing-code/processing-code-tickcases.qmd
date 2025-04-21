@@ -177,7 +177,7 @@ A histogram is created to visualize the distribution of different tick-borne dis
 library(ggplot2)
 
 # Create histogram of disease counts
-disease_plot <- ggplot(cleaned_data3, aes(x = DISEASE)) +
+disease_histogram <- ggplot(cleaned_data3, aes(x = DISEASE)) +
   geom_bar(fill = "#2C3E50", color = "white") +  # Dark blue bars with white edges
   theme_minimal() +
   labs(
@@ -195,13 +195,13 @@ disease_plot <- ggplot(cleaned_data3, aes(x = DISEASE)) +
 print(disease_plot)
 
 # Define save locations
-save_plot_location <- here::here("results", "figures", "disease_histogram.png")
+save_plot_location <- here::here("results", "supplemental-figures", "disease_histogram.png")
 
 # Ensure directory exists
-dir.create(here::here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
+dir.create(here::here("results", "supplemental-figures"), recursive = TRUE, showWarnings = FALSE)
 
 # Save the plot
-ggsave(filename = save_plot_location, plot = disease_plot, width = 12, height = 6, dpi = 300)
+ggsave(filename = save_plot_location, plot = disease_histogram, width = 12, height = 6, dpi = 300)
 ```
 
 To explore the severity of Rocky Mountain Spotted Fever cases, a box plot of TITER1 values (log-transformed for better visualization) is created. This helps in understanding the spread and variability of test results among confirmed cases. It also is considered relatively analagous to the patterns seen in Alpha-Gal Syndrome, which is a topic of interest for me, but is not explicitly included in this data set as it is currently not a reportable disease in Georgia.
@@ -237,7 +237,7 @@ rmsf_titer_plot <- ggplot(rmsf_data, aes(y = TITER1)) +
 print(rmsf_titer_plot)
 
 # Define save location
-save_rmsf_plot_location <- here::here("results", "figures", "rmsf_titer_boxplot_log.png")
+save_rmsf_plot_location <- here::here("results", "supplemental-figures", "rmsf_titer_boxplot_log.png")
 
 # Save the plot
 ggsave(filename = save_rmsf_plot_location, plot = rmsf_titer_plot, width = 8, height = 6, dpi = 300)
@@ -292,7 +292,7 @@ top5_disease_plot <- ggplot(disease_summary, aes(x = reorder(DISEASE, -Count), y
 print(top5_disease_plot)
 
 # Define save location
-save_top5_disease_plot <- here::here("results", "figures", "top5_diseases_plot.png")
+save_top5_disease_plot <- here::here("results", "supplemental-figures", "top5_diseases_plot.png")
 
 # Save the plot
 ggsave(filename = save_top5_disease_plot, plot = top5_disease_plot, width = 8, height = 6, dpi = 300)
@@ -344,7 +344,7 @@ lyme_count_histogram2 <- ggplot(lyme_data2, aes(x = RESULT1, fill = RESULT1)) +
 print(lyme_count_histogram2)
 
 # Define save location
-save_lyme_count_plot <- here::here("results", "figures", "lyme_result_count_histogram2.png")
+save_lyme_count_plot <- here::here("results", "supplemental-figures", "lyme_result_count_histogram2.png")
 
 # Save the plot
 ggsave(filename = save_lyme_count_plot, plot = lyme_count_histogram2, width = 8, height = 6, dpi = 300)
@@ -389,7 +389,7 @@ disease_county_plot <- ggplot(disease_county_summary, aes(x = COUNTY, y = Count,
 print(disease_county_plot)
 
 # Define save location
-save_disease_county_plot <- here::here("results", "figures", "disease_county_plot.png")
+save_disease_county_plot <- here::here("results", "supplemental-figures", "disease_county_plot.png")
 
 # Save the plot
 ggsave(filename = save_disease_county_plot, plot = disease_county_plot, width = 10, height = 6, dpi = 300)
@@ -466,7 +466,7 @@ top5_stacked_plot <- ggplot(disease_county_summary, aes(x = DISEASE, y = Count, 
 print(top5_stacked_plot)
 
 # Define save location
-save_top5_stacked_plot <- here::here("results", "figures", "top5_diseases_stacked_plot.png")
+save_top5_stacked_plot <- here::here("results", "supplemental-figures", "top5_diseases_stacked_plot.png")
 
 # Save the plot
 ggsave(filename = save_top5_stacked_plot, plot = top5_stacked_plot, width = 8, height = 6, dpi = 300)
@@ -507,9 +507,9 @@ age_group_plot <- ggplot(selected_columns_data, aes(x = Age_Bin, fill = DISEASE)
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
 
-# Save the plot to results/figures using here::here()
+# Save the plot to results/supplemental-figures using here::here()
 ggsave(
-  filename = here::here("results", "figures", "disease_count_by_age.png"), 
+  filename = here::here("results", "supplemental-figures", "disease_count_by_age.png"), 
   plot = age_group_plot, 
   width = 8, 
   height = 6, 
@@ -552,9 +552,9 @@ status_completeness_plot <- ggplot(statuscompleteness_summary, aes(x = Month, y 
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
 
-# Save the plot to results/figures using here::here()
+# Save the plot to results/supplemental-figures using here::here()
 ggsave(
-  filename = here::here("results", "figures", "status_completeness_plot.png"), 
+  filename = here::here("results", "supplemental-figures", "status_completeness_plot.png"), 
   plot = status_completeness_plot, 
   width = 8, 
   height = 6, 
@@ -637,6 +637,16 @@ processed_time_data <- processed_date_data %>%
 # Remove rows with any negative values
 processed_time_data2 <- processed_time_data %>%
   filter(if_all(c(DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS), ~ . >= 0))
+
+# Create binary target variable for modeling: delay > 30 days = 1, else 0
+processed_time_data2 <- processed_time_data2 %>%
+  mutate(
+    delay1 = as.numeric(LABDATE1 - DOO),
+    delay2 = as.numeric(LABDATE2 - LABDATE1),
+    delay3 = as.numeric(UPDATEDATE - LABDATE2),
+    total_delay_days = delay1 + delay2 + delay3,
+    delay_over_threshold = if_else(total_delay_days > 30, 1, 0)
+  )
 
 # Select key columns for review
 time_summary_table <- processed_time_data2 %>%

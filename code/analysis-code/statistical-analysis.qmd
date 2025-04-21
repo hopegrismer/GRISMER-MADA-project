@@ -89,18 +89,18 @@ plot1 <- ggplot(disease_counts, aes(x = YEAR, y = CASE_COUNT, color = DISEASE)) 
 plot1
 
 # Save plot
-plot_file1 <- here::here("results", "figures", "trend_over_time_by_disease.png")
+plot_file1 <- here::here("results", "supplemental-figures", "trend_over_time_by_disease.png")
 ggsave(plot_file1, plot = plot1, width = 8, height = 6, dpi = 300)
 ```
 
 ```{r}
-# 2. Distribution Across Health Districts:
-# Bar plot of cases by health district
+##Distribution Across Counties:
+# Bar plot of cases by county
 plot2 <- ggplot(cleaned_data3, aes(x = COUNTY, fill = DISEASE)) +
   geom_bar() +
   labs(
-    title = "Cases by Health District",
-    x = "Health District",
+    title = "Cases by County",
+    x = "County",
     y = "Number of Cases"
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -108,7 +108,7 @@ plot2 <- ggplot(cleaned_data3, aes(x = COUNTY, fill = DISEASE)) +
 plot2
 
 # Save plot
-plot_file2 <- here::here("results", "figures", "cases_by_health_district.png")
+plot_file2 <- here::here("results", "supplemental-figures", "cases_by_eachcounty.png")
 ggsave(plot_file2, plot = plot2, width = 8, height = 6, dpi = 300)
 ```
 
@@ -154,8 +154,8 @@ plot3 <- ggplot(completeness_summary, aes(x = YEAR, y = COMPLETENESS)) +
 # Print the plot
 plot3
 
-# Save the plot to the results/figures folder
-plot_file3 <- here::here("results", "figures", "completeness_over_time.png")
+# Save the plot 
+plot_file3 <- here::here("results", "supplemental-figures", "completeness_over_time.png")
 ggsave(plot_file3, plot = plot3, width = 8, height = 6, dpi = 300)
 
 ```
@@ -192,7 +192,7 @@ plot4 <- ggplot(filtered_time_data, aes(x = YEAR, y = DAYS_TO_LAB)) +
 plot4
 
 # Save plot
-plot_file4 <- here::here("results", "figures", "days_to_lab_over_time.png")
+plot_file4 <- here::here("results", "supplemental-figures", "days_to_lab_over_time.png")
 ggsave(plot_file4, plot = plot4, width = 8, height = 6, dpi = 300)
 
 ```
@@ -222,9 +222,154 @@ plot5 <- ggplot(incidence_summary, aes(x = YEAR, y = INCIDENCE, color = DISEASE)
 plot5
 
 # Save plot
-plot_file5 <- here::here("results", "figures", "relative_incidence_2019_2024.png")
+plot_file5 <- here::here("results", "supplemental-figures", "relative_incidence_2019_2024.png")
 ggsave(plot_file5, plot = plot5, width = 8, height = 6, dpi = 300)
 ```
+
+
+```{r}
+## ---- modeling_setup --------
+library(tidymodels)
+
+# Load the processed dataset
+model_data <- readr::read_csv(here::here("data", "processed-data", "time_between_processeddata.csv"))
+
+# Add the target variable and convert appropriate columns
+model_data <- model_data %>%
+  mutate(
+    delay_over_threshold = if_else(TOTAL_DAYS > 30, 1, 0),  # Create binary target
+    delay_over_threshold = as.factor(delay_over_threshold),  # Convert to factor
+    DISEASE = as.factor(DISEASE),
+    COUNTY = as.factor(COUNTY),
+    SEX = as.factor(GENDER),
+    AGE = as.numeric(AGE)  # Ensure numeric
+  ) %>%
+  drop_na(delay_over_threshold, AGE, SEX, COUNTY, DISEASE)  # Clean up
+
+# Save the updated dataset with the new variable
+write_csv(model_data, here::here("data", "processed-data", "time_between_processeddata.csv"))
+
+```
+
+To explore whether certain demographic or clinical variables could predict delayed follow-up in confirmed tick-borne disease cases, we created a binary outcome variable called delay_over_threshold, coded as 1 if the total time between disease onset and case closure exceeded 30 days, and 0 otherwise. This variable was calculated based on the sum of time intervals between key date fields (DOO, LABDATE1, LABDATE2, and UPDATEDATE), which had been previously cleaned and processed. Predictors selected for this analysis included age, sex, county, and disease type, as these are commonly available surveillance variables that may relate to access to care or follow-up procedures. All categorical predictors were converted into factor variables to prepare them for modeling.
+
+```{r}
+## ---- modeling_setup --------
+library(tidymodels)
+
+# Load the processed dataset
+model_data <- readr::read_csv(here::here("data", "processed-data", "time_between_processeddata.csv"))
+
+# Convert appropriate variables to factors
+model_data <- model_data %>%
+  mutate(
+    delay_over_threshold = as.factor(delay_over_threshold),  # target variable
+    DISEASE = as.factor(DISEASE),
+    COUNTY = as.factor(COUNTY),
+    SEX = as.factor(GENDER),
+    AGE = as.numeric(AGE)  # just in case it's not numeric yet
+  ) %>%
+  drop_na(delay_over_threshold, AGE, SEX, COUNTY, DISEASE)  # Remove any rows with missing predictors
+
+```
+
+The data was randomly partitioned into training and testing sets using an 80/20 split, stratified by the outcome variable to maintain a balanced class distribution. The training set was used for model training and cross-validation, while the test set was reserved for final evaluation of model performance on unseen data.
+
+```{r}
+set.seed(123)
+data_split <- initial_split(model_data, prop = 0.8, strata = delay_over_threshold)
+train_data <- training(data_split)
+test_data <- testing(data_split)
+
+```
+
+A recipe() was used to define preprocessing steps applied uniformly across all models. Categorical variables (such as county, disease, and sex) were one-hot encoded using dummy variables. Zero-variance predictors were removed, and the single numeric predictor, age, was normalized to ensure comparability across different model types.
+```{r}
+delay_recipe <- recipe(delay_over_threshold ~ AGE + SEX + COUNTY + DISEASE, data = train_data) %>%
+  step_dummy(all_nominal_predictors()) %>%  # convert categorical predictors to dummy variables
+  step_zv(all_predictors()) %>%  # remove zero-variance predictors
+  step_normalize(all_numeric_predictors())  # standardize age
+```
+
+```{r}
+logistic_model <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+tree_model <- decision_tree() %>%
+  set_engine("rpart") %>%
+  set_mode("classification")
+
+rf_model <- rand_forest(trees = 500) %>%
+  set_engine("ranger") %>%
+  set_mode("classification")
+
+```
+
+For each model, a workflow was constructed using the tidymodels framework to combine the preprocessing recipe and the corresponding model specification. This approach ensured consistent preprocessing and simplified model training and evaluation.
+```{r}
+logistic_workflow <- workflow() %>%
+  add_model(logistic_model) %>%
+  add_recipe(delay_recipe)
+
+tree_workflow <- workflow() %>%
+  add_model(tree_model) %>%
+  add_recipe(delay_recipe)
+
+rf_workflow <- workflow() %>%
+  add_model(rf_model) %>%
+  add_recipe(delay_recipe)
+```
+To evaluate model performance and avoid overfitting, we implemented 5-fold cross-validation repeated 3 times. This resampling strategy provides a robust estimate of out-of-sample performance. Each model was trained and evaluated on multiple folds using two performance metrics: accuracy and the area under the ROC curve (AUC), the latter of which is especially informative for imbalanced or binary classification problems.
+```{r}
+set.seed(123)
+cv_folds <- vfold_cv(train_data, v = 5, repeats = 3, strata = delay_over_threshold)
+
+# Fit all models
+logistic_res <- fit_resamples(logistic_workflow, resamples = cv_folds, metrics = metric_set(roc_auc, accuracy))
+tree_res     <- fit_resamples(tree_workflow, resamples = cv_folds, metrics = metric_set(roc_auc, accuracy))
+rf_res       <- fit_resamples(rf_workflow, resamples = cv_folds, metrics = metric_set(roc_auc, accuracy))
+
+```
+Cross-validation results for each model were collected and compared using mean accuracy and AUC. These metrics provided insight into the predictive quality of each approach. The model with the best combination of high accuracy and AUC was selected for final evaluation on the test set.
+```{r}
+collect_metrics(logistic_res)
+collect_metrics(tree_res)
+collect_metrics(rf_res)
+```
+
+```{r}
+## ---- final_rf_evaluation --------
+# Fit the final random forest model on training data and evaluate on test data
+final_rf_fit <- rf_workflow %>%
+  last_fit(split = data_split)
+
+# Collect performance metrics
+collect_metrics(final_rf_fit)
+
+# Confusion matrix
+collect_predictions(final_rf_fit) %>%
+  conf_mat(truth = delay_over_threshold, estimate = .pred_class)
+
+# ROC curve
+collect_predictions(final_rf_fit) %>%
+  roc_curve(truth = delay_over_threshold, .pred_1) %>%
+  autoplot()
+
+# Save ROC curve plot
+roc_plot <- collect_predictions(final_rf_fit) %>%
+  roc_curve(truth = delay_over_threshold, .pred_1) %>%
+  autoplot() +
+  theme_minimal() +
+  labs(title = "ROC Curve for Random Forest Model")
+
+ggsave(
+  filename = here::here("results", "supplemental-figures", "roc_curve.png"),
+  plot = roc_plot,
+  width = 6, height = 5, dpi = 300
+)
+```
+
 
 
 
