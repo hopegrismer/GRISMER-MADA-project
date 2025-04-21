@@ -6894,10 +6894,10 @@ $ DOOE        &lt;dttm&gt; 2019-07-01, 2019-08-09, 2019-08-16, 2019-08-19, 2019-
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define save locations</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>save_plot_location <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"disease_histogram.png"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>save_plot_location <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"disease_histogram.png"</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure directory exists</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>), <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> save_plot_location, <span class="at">plot =</span> disease_plot, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -6945,7 +6945,7 @@ Caused by warning:
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define save location</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>save_rmsf_plot_location <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"rmsf_titer_boxplot_log.png"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>save_rmsf_plot_location <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"rmsf_titer_boxplot_log.png"</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> save_rmsf_plot_location, <span class="at">plot =</span> rmsf_titer_plot, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -7003,7 +7003,7 @@ Caused by warning:
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define save location</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>save_top5_disease_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"top5_diseases_plot.png"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>save_top5_disease_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"top5_diseases_plot.png"</span>)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> save_top5_disease_plot, <span class="at">plot =</span> top5_disease_plot, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
@@ -7011,7 +7011,7 @@ Caused by warning:
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm success</span></span>
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Plot saved successfully at: "</span>, save_top5_disease_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Plot saved successfully at: /Users/hopegrismercomputer/Desktop/MADA-course/GRISMER-MADA-project/results/figures/top5_diseases_plot.png</code></pre>
+<pre><code>Plot saved successfully at: /Users/hopegrismercomputer/Desktop/MADA-course/GRISMER-MADA-project/results/supplemental-figures/top5_diseases_plot.png</code></pre>
 </div>
 </div>
 <p>Lyme Disease is likewise similar to Alpha-gal. So, a specific analysis is conducted for Lyme Disease cases, focusing on test results was conducted. Below ia a count histogram generated to compare positive, negative, and other test outcomes, offering insights into testing patterns and diagnosis rates.</p>
@@ -7061,7 +7061,7 @@ Caused by warning:
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define save location</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>save_lyme_count_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"lyme_result_count_histogram2.png"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>save_lyme_count_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"lyme_result_count_histogram2.png"</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> save_lyme_count_plot, <span class="at">plot =</span> lyme_count_histogram2, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -7109,7 +7109,7 @@ Caused by warning:
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define save location</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>save_disease_county_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"disease_county_plot.png"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>save_disease_county_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"disease_county_plot.png"</span>)</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> save_disease_county_plot, <span class="at">plot =</span> disease_county_plot, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
@@ -7117,7 +7117,7 @@ Caused by warning:
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm success</span></span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Plot saved successfully at: "</span>, save_disease_county_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Plot saved successfully at: /Users/hopegrismercomputer/Desktop/MADA-course/GRISMER-MADA-project/results/figures/disease_county_plot.png</code></pre>
+<pre><code>Plot saved successfully at: /Users/hopegrismercomputer/Desktop/MADA-course/GRISMER-MADA-project/results/supplemental-figures/disease_county_plot.png</code></pre>
 </div>
 </div>
 <p>To look at trends in disease burden as well as “hot-spot” counties, I generated the stacked bar graph below.</p>
@@ -7192,7 +7192,7 @@ Caused by warning:
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define save location</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>save_top5_stacked_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"top5_diseases_stacked_plot.png"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>save_top5_stacked_plot <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"top5_diseases_stacked_plot.png"</span>)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> save_top5_stacked_plot, <span class="at">plot =</span> top5_stacked_plot, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
@@ -7200,7 +7200,7 @@ Caused by warning:
 <span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm success</span></span>
 <span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Plot saved successfully at: "</span>, save_top5_stacked_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Plot saved successfully at: /Users/hopegrismercomputer/Desktop/MADA-course/GRISMER-MADA-project/results/figures/top5_diseases_stacked_plot.png</code></pre>
+<pre><code>Plot saved successfully at: /Users/hopegrismercomputer/Desktop/MADA-course/GRISMER-MADA-project/results/supplemental-figures/top5_diseases_stacked_plot.png</code></pre>
 </div>
 </div>
 <p>Age distribution might be of interest in the analysis, so this was checked as part of this initial data cleaning. This output shows 0 rows of the cleaned data to be missing ages. As an exploratory analysis, I looked at disease count by age group from my cleaned data set.</p>
@@ -7241,9 +7241,9 @@ Caused by warning:
 <span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))  <span class="co"># Rotate x-axis labels for readability</span></span>
 <span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot to results/figures using here::here()</span></span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot to results/supplemental-figures using here::here()</span></span>
 <span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
-<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"disease_count_by_age.png"</span>), </span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"disease_count_by_age.png"</span>), </span>
 <span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> age_group_plot, </span>
 <span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">8</span>, </span>
 <span id="cb50-28"><a href="#cb50-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">6</span>, </span>
@@ -7300,9 +7300,9 @@ Attaching package: 'lubridate'</code></pre>
 <pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ℹ Please use `linewidth` instead.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot to results/figures using here::here()</span></span>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot to results/supplemental-figures using here::here()</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"figures"</span>, <span class="st">"status_completeness_plot.png"</span>), </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"results"</span>, <span class="st">"supplemental-figures"</span>, <span class="st">"status_completeness_plot.png"</span>), </span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> status_completeness_plot, </span>
 <span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">8</span>, </span>
 <span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">6</span>, </span>
@@ -14903,7 +14903,7 @@ Attaching package: 'lubridate'</code></pre>
 
 </div>
 </div>
-<p>Another question that I want to analyze later and therefore needed to clean for was What is the timeline between key dates (onset, lab test, and date of entry), excluding same-day onset and lab results, and how does this timeline vary over time? One thing I have noticed in my internship work on tick-bourne illness is the huge issue with loss-to-follow-up.</p>
+<p>Another question that I want to analyze later and therefore needed to clean for was “what is the timeline between key dates (onset, lab test, and date of entry), excluding same-day onset and lab results, and how does this timeline vary over time?” One thing I have noticed in my internship work on tick-bourne illness is the huge issue with loss-to-follow-up.</p>
 <p>The code below calculate the time differences between key dates. The script then calculates the number of days between the onset date (DOO) and the first lab date (LABDATE1), between the first and second lab dates (LABDATE2), and between the second lab date and the update date (UPDATEDATE). These values are summed to determine the total duration of each case.</p>
 <p>This processed dataset is then saved as a CSV file for further analysis. The script also generates a formatted HTML table to display the extracted time information in a structured manner.</p>
 <p>Once I took a look at this table, however, there were big issues. Namely, that negative time (in days) was recorded between the initial lab result and the follow up test. I wrote further code to remove these values because it is not able to be determined what the proper date was due to user error. I added a filter accordingly.</p>
@@ -14929,20 +14929,30 @@ Attaching package: 'lubridate'</code></pre>
 <span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>processed_time_data2 <span class="ot">&lt;-</span> processed_time_data <span class="sc">%&gt;%</span></span>
 <span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">c</span>(DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS), <span class="sc">~</span> . <span class="sc">&gt;=</span> <span class="dv">0</span>))</span>
 <span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Select key columns for review</span></span>
-<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>time_summary_table <span class="ot">&lt;-</span> processed_time_data2 <span class="sc">%&gt;%</span></span>
-<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DISEASE, DOO, LABDATE1, LABDATE2, UPDATEDATE, DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS)</span>
-<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the dataset with time differences</span></span>
-<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>))  <span class="co"># Ensure directory exists</span></span>
-<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(processed_time_data2, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"time_between_processeddata.csv"</span>))</span>
-<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary Table</span></span>
-<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(time_summary_table, <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Time Differences Between Key Date Points"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
-<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(time_summary_table), <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
-<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Create binary target variable for modeling: delay &gt; 30 days = 1, else 0</span></span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>processed_time_data2 <span class="ot">&lt;-</span> processed_time_data2 <span class="sc">%&gt;%</span></span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay1 =</span> <span class="fu">as.numeric</span>(LABDATE1 <span class="sc">-</span> DOO),</span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay2 =</span> <span class="fu">as.numeric</span>(LABDATE2 <span class="sc">-</span> LABDATE1),</span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay3 =</span> <span class="fu">as.numeric</span>(UPDATEDATE <span class="sc">-</span> LABDATE2),</span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_delay_days =</span> delay1 <span class="sc">+</span> delay2 <span class="sc">+</span> delay3,</span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay_over_threshold =</span> <span class="fu">if_else</span>(total_delay_days <span class="sc">&gt;</span> <span class="dv">30</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Select key columns for review</span></span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>time_summary_table <span class="ot">&lt;-</span> processed_time_data2 <span class="sc">%&gt;%</span></span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DISEASE, DOO, LABDATE1, LABDATE2, UPDATEDATE, DOO_to_LAB1, LAB1_to_LAB2, LAB2_to_UPDATE, TOTAL_DAYS)</span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the dataset with time differences</span></span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_create</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>))  <span class="co"># Ensure directory exists</span></span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(processed_time_data2, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"processed-data"</span>, <span class="st">"time_between_processeddata.csv"</span>))</span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary Table</span></span>
+<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kable</span>(time_summary_table, <span class="at">format =</span> <span class="st">"html"</span>, <span class="at">caption =</span> <span class="st">"Time Differences Between Key Date Points"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>, <span class="st">"responsive"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Highlight the first column</span></span>
+<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(time_summary_table), <span class="at">width =</span> <span class="st">"12em"</span>) <span class="sc">%&gt;%</span>  <span class="co"># Adjust column widths</span></span>
+<span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">background =</span> <span class="st">"#2C3E50"</span>, <span class="at">color =</span> <span class="st">"white"</span>)  <span class="co"># Header row styling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="table-responsive">
 <table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">

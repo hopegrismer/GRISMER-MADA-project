@@ -177,7 +177,7 @@ A histogram is created to visualize the distribution of different tick-borne dis
 library(ggplot2)
 
 # Create histogram of disease counts
-disease_histogram <- ggplot(cleaned_data3, aes(x = DISEASE)) +
+disease_plot <- ggplot(cleaned_data3, aes(x = DISEASE)) +
   geom_bar(fill = "#2C3E50", color = "white") +  # Dark blue bars with white edges
   theme_minimal() +
   labs(
@@ -201,7 +201,7 @@ save_plot_location <- here::here("results", "supplemental-figures", "disease_his
 dir.create(here::here("results", "supplemental-figures"), recursive = TRUE, showWarnings = FALSE)
 
 # Save the plot
-ggsave(filename = save_plot_location, plot = disease_histogram, width = 12, height = 6, dpi = 300)
+ggsave(filename = save_plot_location, plot = disease_plot, width = 12, height = 6, dpi = 300)
 ```
 
 To explore the severity of Rocky Mountain Spotted Fever cases, a box plot of TITER1 values (log-transformed for better visualization) is created. This helps in understanding the spread and variability of test results among confirmed cases. It also is considered relatively analagous to the patterns seen in Alpha-Gal Syndrome, which is a topic of interest for me, but is not explicitly included in this data set as it is currently not a reportable disease in Georgia.
