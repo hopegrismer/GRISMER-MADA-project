@@ -162,11 +162,11 @@ Are all results fully reproducible? Is documentation provided which clearly expl
 
 
 ## Thoroughness
-How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
 
 ### Feedback and Comments
 
-WRITE YOUR FEEDBACK HERE
+The study is very thorough. The process is well explained and the models used is very good and can answer the questions. 
 
 ### Summary assessment
 
