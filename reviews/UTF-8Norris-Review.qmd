@@ -1,0 +1,177 @@
+---
+title: Hope Grismer Project Reivew
+author: Connor Norris
+date: 2025-04-25
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: Analysis of Tick-Bourne Disease Cases Reported to DPH Between 2019-2024
+
+Name of project author(s): Hope Grismer 
+
+Name of project reviewer: Connor Norris
+
+
+
+
+# Specific project content evaluation
+
+
+## Background, Context and Motivation
+How well is the context of the project described? Is a comprehensive background, including summary of previous/related work given? Is the project well placed into the context of existing work (including proper referencing of existing work). Is it clear why the project was undertaken and what new information it hopes to provide?
+
+### Feedback and Comments
+
+Your background is very well written and is definitely comprehensive. However, almost everything you have in the background needs a source cited. 
+
+### Summary assessment (PICK ONE, DELETE THE OTHERS)
+
+* strong contextualization and motivation
+
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described? Is it clear how the questions relate to the data?
+
+### Feedback and Comments
+
+I think you explain your rationale for doing this analysis very well and put it in the context of the information you provide in your background. However, I don't know what specific questions that you have because of that rationale and what you expect the answers of those questions to be. Take a couple sentences in the last paragraph of your intro to explain what you did with this analysis, big picture.
+
+### Summary assessment
+* question/hypotheses fully clear
+
+
+## Data description
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+### Feedback and Comments
+
+First, move the data description to the beginning of the methods. Putting it in between the background and your research questions makes your questions not as immediately clear to readers. That being said, I think this section is well done. The only thing I would change is to clarify what 'cases' mean at the very beginning of your dataset description. Does the data only include cases of tickborne disease, or is it any reportable disease?
+
+### Summary assessment
+
+* source and overall structure of data well explained
+
+
+## Data wrangling and exploratory analysis
+How well is the data cleaned/processed and explored? Are all steps reasonable and well explained? Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+### Feedback and Comments
+
+I think you almost have too much information in your data wrangling section of the manuscript, but I don't think that's a bad thing! I think your exploratory data analysis is also super thorough.
+
+### Summary assessment
+
+* essentially no weaknesses in wrangling and exploratory component
+
+
+
+## Appropriateness of Analysis
+Were the analysis methods appropriate for the data? Was the analysis done properly? Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+### Feedback and Comments
+
+I think that all of your choices for how you did your analysis were well made, and I appreciated how you used multiple models.
+
+### Summary assessment
+
+* strong and reasonable analysis
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+### Feedback and Comments
+
+For your tables, I like the information you put in all of them, but I don't think the format you put them in translates well to the Word document (the spacing of words is weird), and I don't think you would be able to reproduce them easily if you had to tweak your analysis. You have good tables in your code, though, just save them and use them in the manuscript. I think for the most part, your figures are well done. The only one I would reconsider is the vector-borne diseases over time by disease figure. It's hard to see individual trends. I think your figure where you plot blanks versus text in the STATUS column by month is super cool.
+
+### Summary assessment
+
+* results are presented ok, with room for improvement
+
+
+
+## Discussion/Conclusions
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+### Feedback and Comments
+
+I think your discussion is well done, and I appreciate how you talked about your limitations.
+
+### Summary assessment
+
+* strong, complete and clear discussion
+
+
+## Further comments
+
+
+
+# Overall project content evaluation
+Evaluate overall features of the project  by filling in the sections below.
+
+
+## Structure
+Is the project well structured? Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed? By just looking at files and folders, can you get an idea of how things fit together?
+
+### Feedback and Comments
+
+Your project directory is overall well structured, just make sure you edit or delete the readme files across the directory.
+
+### Summary assessment
+
+* mostly clear, but some confusing parts (e.g. useless files, things in the wrong folders)
+
+
+
+## Documentation 
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+### Feedback and Comments
+
+I think you document your code well - it was pretty easy to read through it all. In the readme file of the analysis-code folder, I would briefly explain what each file does.
+
+### Summary assessment
+
+* fully and well documented
+
+
+
+## Reproducibility
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+### Feedback and Comments
+
+I was able to run your code with no problem. However, I was unable to load your manuscript
+from the markdown file and was only able to look at the version already in your directory. I got this error: File ../../assets/american-journal-of-epidemiology.csl not found in resource path
+
+### Summary assessment
+
+* small parts not reproducible or required manual intervention 
+
+
+
+## Thoroughness
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+### Feedback and Comments
+
+As I said above, I think you were very thorough.
+
+### Summary assessment
+
+* strong level of thorougness
+
+
+## Further comments
+
+Make sure that all scientific names are italicized where appropriate, both in the manuscript text and in the figures. For the figures, you can use the ggmarkdown package. Overall, I think your project was very well done and your manuscript is coming along nicely. Great job!
+
+
+
+
+

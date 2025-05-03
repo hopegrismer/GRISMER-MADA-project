@@ -6,8 +6,8 @@ format:
     toc: false
     number-sections: true
     highlight-style: github
-bibliography: ../../assets/dataanalysis-references.bib
-csl: ../../assets/american-journal-of-epidemiology.csl
+bibliography: ../../assets/references.bib
+csl: ../../assets/vancouver.csl
 editor: 
   markdown: 
     wrap: 72
@@ -41,22 +41,22 @@ author's own and don't reflect their employer.
 This project explores patterns in tick-borne disease cases reported to
 the Georgia Department of Public Health (DPH) between 2019 and 2024. The
 analysis involved extensive data cleaning to retain only confirmed and
-positive cases, with additional processing to resolve inconsistencies in
-timelines and reporting. Exploratory data analysis (EDA) was used to
-examine disease distribution, demographic patterns, geographic hotspots,
-and data completeness over time. Building on these insights, predictive
-models were developed to assess whether patient and case-level
-factors—such as age, disease type, and county—could help identify cases
-at risk of delayed follow-up. This work theorectically supports improved
-understanding of disease surveillance data and highlights areas for
-strengthening tick-borne disease reporting and case management systems
-in Georgia.
+positive cases, with a\@perumalsamy2024dditional processing to resolve
+inconsistencies in timelines and reporting. Exploratory data analysis
+(EDA) was used to examine disease distribution, demographic patterns,
+geographic hotspots, and data completeness over time. Building on these
+insights, predictive models were developed to assess whether patient and
+case-level factors—such as age, disease type, and county—could help
+identify cases at risk of delayed follow-up. This work theorectically
+supports improved understanding of disease surveillance data and
+highlights areas for strengthening tick-borne disease reporting and case
+management systems in Georgia.
 
 {{< pagebreak >}}
 
 # Introduction
 
-### 2.1 Background
+### Background
 
 In the past two decades, the study of tick-borne disease has gained
 increasing attention due to rising incidence rates and expanding
@@ -65,19 +65,20 @@ veterinary research in the 20th century identified key tick-borne
 illnesses such as Rocky Mountain spotted fever and Lyme disease, recent
 decades have seen an acceleration in the detection of new pathogens,
 greater public health concern, and expanded surveillance efforts across
-the globe. Researchers have documented the ecology and behavior of
-ticks, explored the role of climate and land use in tick habitat
-expansion, and analyzed patterns of disease incidence in both human and
-animal populations. Despite the growing body of research, many knowledge
-gaps remain, particularly in understanding co-infections, long-term
-health effects, and effective prevention strategies. Tick-borne diseases
-(TBDs) are primarily transmitted through the bite of infected
-hard-bodied ticks (family Ixodidae), and include bacterial, viral, and
-protozoan pathogens. Today, TBDs are recognized as a major public health
-concern in both rural and suburban settings, with transmission risk
-influenced by ecological, climatic, and sociocultural factors.
+the globe [@mcpherson2017]. Researchers have documented the ecology and
+behavior of ticks, explored the role of climate and land use in tick
+habitat expansion, and analyzed patterns of disease incidence in both
+human and animal populations. Despite the growing body of research, many
+knowledge gaps remain, particularly in understanding co-infections,
+long-term health effects, and effective prevention strategies
+[@usepa2016]. Tick-borne diseases (TBDs) are primarily transmitted
+through the bite of infected hard-bodied ticks (family Ixodidae), and
+include bacterial, viral, and protozoan pathogens. Today, TBDs are
+recognized as a major public health concern in both rural and suburban
+settings, with transmission risk influenced by ecological, climatic, and
+sociocultural factors [@perumalsamy2024].
 
-### 2.1.1 General Background Information
+### General Background Information
 
 Tick-borne illnesses are diseases that humans can contract from the bite
 of an infected tick. Ticks are small, blood-sucking arachnids that are
@@ -87,9 +88,9 @@ or parasites—that can then be transmitted to humans. Examples of
 tick-borne diseases include, but are not limited to, Lyme disease,
 Anaplasmosis, and Babesiosis. These diseases are of increasing public
 health concern, especially as the geographic range and seasonality of
-ticks expand due to environmental and ecological changes.
+ticks expand due to environmental and ecological changes @cdc2024a.
 
-### 2.1.2 Transmission and Reservoirs
+### Transmission and Reservoirs
 
 Ticks act as both vectors and reservoirs for a variety of pathogens,
 transmitting disease to humans and animals during blood meals. Most
@@ -102,33 +103,35 @@ Borrelia burgdorferi (the agent of Lyme disease), Rickettsia rickettsii
 (Rocky Mountain spotted fever), Anaplasma phagocytophilum, Ehrlichia
 chaffeensis, and viruses such as Powassan and Heartland virus. Ticks
 themselves are influenced by multiple environmental factors, including
-temperature, humidity, vegetation, and host availability. Human exposure
-risk is increased in areas with high host density, edge habitats between
-forest and residential zones, and during seasons with peak tick
-activity. Additionally, land use changes—such as suburban development,
+temperature, humidity, vegetation, and host availability[@berger2014;
+@bouchard2019]. Human exposure risk is increased in areas with high host
+density, edge habitats between forest and residential zones, and during
+seasons with peak tick activity [@lerman2018; @aronson2017].
+Additionally, land use changes—such as suburban development,
 deforestation, and agricultural expansion—can modify tick habitats and
-affect pathogen dynamics.
+affect pathogen dynamics @allan2003.
 
-### 2.1.3 Ecological and Health Impacts
+### Ecological and Health Impacts
 
 The ecological consequences of tick-borne disease extend beyond human
 health. Tick populations and their associated pathogens can alter
 wildlife health and community composition. Infected animals may suffer
 sublethal effects that reduce fitness, while high burdens of tick
 parasitism can influence population dynamics, particularly in rodents
-and ungulates. From a public health perspective, TBDs can cause a range
-of acute and chronic symptoms in humans, from fever and fatigue to
-long-term neurological and musculoskeletal complications.
-Co-infections—when an individual is infected with more than one
-pathogen—are increasingly recognized and may complicate diagnosis and
-treatment. The public health burden is also shaped by disparities in
-access to health care, awareness of TBDs, and availability of diagnostic
-testing, which may result in underreporting or misdiagnosis. The costs
-associated with tick-borne disease—including medical care, productivity
-loss, and prevention efforts—represent a growing concern for health
-systems, particularly in endemic areas.
+[@kasari2010; @clark]. From a public health perspective, TBDs can cause
+a range of acute and chronic symptoms in humans, from fever and fatigue
+to long-term neurological and musculoskeletal complications
+@zychowski2024. Co-infections—when an individual is infected with more
+than one pathogen—are increasingly recognized and may complicate
+diagnosis and treatment. The public health burden is also shaped by
+disparities in access to health care, awareness of TBDs, and
+availability of diagnostic testing, which may result in underreporting
+or misdiagnosis. The costs associated with tick-borne disease—including
+medical care, productivity loss, and prevention efforts—represent a
+growing concern for health systems, particularly in endemic areas
+@berghoff2012.
 
-### 2.1.4 Relevance
+### Relevance
 
 Tick-borne diseases have been documented in all regions of the United
 States, with the southeastern, northeastern, and upper midwestern states
@@ -136,18 +139,18 @@ experiencing particularly high incidence rates. Climate models suggest
 that warming temperatures and shifting precipitation patterns may expand
 the range of ticks and lengthen their active season, potentially
 increasing the geographic footprint and seasonality of tick-borne
-disease transmission. In the southeastern U.S., for example, Amblyomma
-americanum (the lone star tick) has expanded in abundance and geographic
-range over the past decades, contributing to increased cases of
-ehrlichiosis and the emergence of Alpha-Gal Syndrome, a red meat allergy
-triggered by tick bites. Understanding the ecology, distribution, and
-drivers of tick-borne disease is therefore crucial to predicting future
-trends, identifying at-risk populations, and developing effective
-prevention and response strategies.
+disease transmission [@gage2008; @dawe2016]. In the southeastern U.S.,
+for example, Amblyomma americanum (the lone star tick) has expanded in
+abundance and geographic range over the past decades, contributing to
+increased cases of ehrlichiosis and the emergence of Alpha-Gal Syndrome,
+a red meat allergy triggered by tick bites @cdc2022. Understanding the
+ecology, distribution, and drivers of tick-borne disease is therefore
+crucial to predicting future trends, identifying at-risk populations,
+and developing effective prevention and response strategies.
 
-# 3. The Data
+# The Data
 
-# 3.1 Data Acquisition & Description
+# Data Acquisition & Description
 
 The data used in this analysis was obtained through my internship with
 the Georgia Department of Health, in collaboration with the Centers for
@@ -155,8 +158,7 @@ Disease Control and Prevention (CDC). Specifically, it is derived from
 the Nationally Notifiable Diseases Surveillance System (NNDSS) and
 focuses on tick-borne illnesses. This data set provides key insights
 into the trends, distribution, and characteristics of reported cases,
-supporting public health efforts in disease monitoring and
-prevention.2.1.5 Description of Data and Data Source
+supporting public health efforts in disease monitoring and prevention.
 
 This data set includes all human cases reported to the Georgia
 Department of Public Health (GA-DPH) between 2019 and 2024. It was
@@ -179,7 +181,7 @@ can better understand the prevalence, demographics, and regional
 variations of these diseases. This analysis aims to further inform the
 public health understanding of tick-borne disease in Georgia.
 
-## 3.1.2 Questions and Hypotheses to Be Addressed
+## Questions and Hypotheses to Be Addressed
 
 This project seeks to explore temporal, spatial, and epidemiologic
 patterns of vector-borne disease (VBD) in Georgia using reported case
@@ -206,9 +208,9 @@ questions:
 
 {{< pagebreak >}}
 
-# 4. Methods
+# Methods
 
-## 4.1 Workflow Summarized
+## Workflow Summarized
 
 -   Cleaned and prepared surveillance data on tick-borne disease cases
     reported in Georgia from 2019–2024, including filtering for
@@ -227,7 +229,7 @@ questions:
     follow-up, using cross-validation and test/train splitting to assess
     model quality and performance.
 
-## 4.2 Uncleaned Data
+## Uncleaned Data
 
 The data contains 6255 entries representing discrete cases of
 tick-bourne diseases. For each case, some or all of the following data
@@ -238,7 +240,7 @@ disease outcomes (death status, fever, migranes, and administrative
 status). For some cases, specific variables were not reported and,
 therefore, are reported as blank spaces in the data set.
 
-## 4.3 Initial Data Cleaning
+## Initial Data Cleaning
 
 The data cleaning and preprocessing workflow begins with loading
 essential R packages for data handling (dplyr, tidyr, readxl), summary
@@ -265,7 +267,7 @@ dataset and a clearer summary table of key case information. The cleaned
 dataset is saved at each stage to maintain version control and
 reproducibility.
 
-#### 4.3.1 Looked for Missing Data & General Trends
+#### Looked for Missing Data & General Trends
 
 -   Excluded cases with a missing or non-“CONFIRMED” STATUS to retain
     only confirmed cases.
@@ -282,29 +284,29 @@ reproducibility.
 -   Implemented a filtering step to remove records with invalid date
     sequences.
 
-## 4.4 Exploratory/Descriptive Analysis
+## Exploratory/Descriptive Analysis
 
-#### 4.4.1 Identified Disease Burden Trends & Hotspot Counties
+#### Identified Disease Burden Trends & Hotspot Counties
 
 -   Generated a histogram to visualize the distribution of tick-borne
     diseases in Georgia between 2019 and 2024.
 -   Created a bar chart highlighting the five most common diseases.
 -   Specifically analyzed Lyme Disease cases, focusing on test results.
 
-#### 4.4.2 Checked Age Distribution
+#### Checked Age Distribution
 
 -   Verified that no cases had missing age values in the cleaned
     dataset.
 -   Conducted an exploratory analysis of disease counts by age group.
 
-#### 4.4.3 Evaluated Data Completeness Over Time
+#### Evaluated Data Completeness Over Time
 
 -   Extracted onset date information to track missing data trends.
 -   Created a plot distinguishing between blank and non-blank STATUS
     entries over time to identify periods of high missingness,
     indicating possible data entry errors or reporting gaps.
 
-#### 4.4.4 Analyzed Timeline Between Key Case Events
+#### Analyzed Timeline Between Key Case Events
 
 -   Calculated time differences for:
     -   Onset date (DOO) to first lab test date (LABDATE1)
@@ -315,11 +317,11 @@ reproducibility.
 -   Created a formatted HTML table to present the extracted time
     intervals.
 
-## 4.5 EDA Revelant Takeaways
+## EDA Relevant Takeaways
 
-#### 4.5.1 Most Common Tick-Borne Diseases
+#### Most Common Tick-Borne Diseases
 
-The dataset is filtered to identify the five most frequently reported
+The data set is filtered to identify the five most frequently reported
 tick-borne diseases. A bar chart visualizes their case counts, offering
 an overview of significant public health concerns.
 
@@ -334,7 +336,10 @@ img_path <- here::here("results", "supplemental-figures", "disease_histogram.png
 knitr::include_graphics(img_path)
 ```
 
-#### 4.5.2 Geographic Distribution
+**Figure 1.** Distribution of tick-borne disease case counts in Georgia,
+2019–2024.
+
+#### Geographic Distribution
 
 A grouped bar chart maps case counts across Georgia counties,
 categorized by disease type to analyze disease burden trends and
@@ -358,7 +363,12 @@ img_paths <- c(
 knitr::include_graphics(img_paths)
 ```
 
-#### 4.5.3 Data Completeness Over Time
+**Figure 2-4.** The distribution of the most common disease types across
+all counties– narrowed to the counties with more tick cases (hotspot
+counties) then further narrowed focus on the top five tick-borne
+diseases within these hotspot counties
+
+#### Data Completeness Over Time
 
 To evaluate how data completeness has evolved, the dataset is processed
 to extract onset date information. A visualization distinguishes between
@@ -378,10 +388,13 @@ img_path <- here::here("results", "supplemental-figures", "status_completeness_p
 knitr::include_graphics(img_path)
 ```
 
+**Figure 5.** Data completeness variation in the data set and entry
+consistency over time
+
 For more of my initial exploratory data analysis, please see the
 [Supplemental Figures]{.underline} section at the bottom of the report.
 
-#### 4.5.4 Timeline Analysis of Key Case Events
+#### Timeline Analysis of Key Case Events
 
 Given the frequent loss-to-follow-up observed in tick-borne illness
 reporting, an analysis is conducted to examine time gaps between
@@ -404,7 +417,7 @@ mistakes, made it impossible to determine the correct dates. To address
 this, a filtering step was added to remove erroneous records where
 follow-up test dates occurred before initial lab dates.
 
-## 4.6 Statistical Analysis
+## Statistical Analysis
 
 To evaluate whether diagnostic delays could be predicted from case-level
 characteristics, a binary outcome variable (`delay_over_threshold`) was
@@ -414,7 +427,7 @@ county of residence, and disease type. Age was normalized, and
 categorical variables were one-hot encoded.
 
 Three classification models—logistic regression, decision tree, and
-random forest—were trained using the `tidymodels`framework. Model
+random forest—were trained using the `tidymodels`framework. Model
 performance was assessed using 5-fold cross-validation repeated three
 times. Metrics included accuracy and area under the receiver operating
 characteristic curve (AUC).
@@ -425,9 +438,9 @@ and evaluated using 5-fold cross-validation repeated 3 times.
 Performance was assessed using accuracy and area under the ROC curve
 (AUC).
 
-# 5. Results
+# Results
 
-## 5.1 Basic statistical analysis
+## Basic statistical analysis
 
 For the first key question related to the disease trends over time (in
 years). In looking at the plot, it appears that there have been
@@ -439,47 +452,46 @@ overall disease burden. In the full analysis and second iteration of
 this, these trends will be compared year to year, comparing each year to
 the 2018 standard.
 
-+-----------+-----------+-----------+-----------+-----------+
-| term      | estimate  | s         | statistic | p.value   |
-|           |           | td.error  |           |           |
-| \<chr\>   | \<dbl\>   |           | \<dbl\>   | \<dbl\>   |
-|           |           | \<dbl\>   |           |           |
-+:==========+==========:+==========:+==========:+==========:+
-| (         | -2 3 2    | 1 57      | 1         | 0.1729390 |
-| I         | 8.5151515 | 3.052665  | .48025251 |           |
-| ntercept) |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+
-| YEAR      | 1.1515152 | 0.777581  | 1         | 0.1727716 |
-|           |           |           | .48089418 |           |
-+-----------+-----------+-----------+-----------+-----------+
-| B         | 0.4242424 | 5.484565  | 0         | 0.9400358 |
-| ABESIOSIS |           |           | .07735207 |           |
-+-----------+-----------+-----------+-----------+-----------+
-| DENGUE    | 4.8484848 | 6.364775  | 0         | 0.4656907 |
-|           |           |           | .76176850 |           |
-+-----------+-----------+-----------+-----------+-----------+
-| EHRLICHIA | 5.0000000 | 5.157889  | 0         | 0.3576794 |
-| C         |           |           | .96938889 |           |
-| H         |           |           |           |           |
-| AFFEENSIS |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+
-| EHRLICHIA | -         | 6.364775  | 0         | 0.8604390 |
-| EWINGII   | 1.1515152 |           | .18092002 |           |
-+-----------+-----------+-----------+-----------+-----------+
-| LYME      | 8.5606061 | 4.963745  | 1         | 0.1186814 |
-| DISEASE   |           |           | .72462659 |           |
-+-----------+-----------+-----------+-----------+-----------+
-| ROCKY     | 0.5757576 | 5.484565  | 0         | 0.9186958 |
-| MOUNTAIN  |           |           | .10497781 |           |
-| SPOTTED   |           |           |           |           |
-| FEVER     |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+
-| WEST NILE | 8.2272727 | 5.593721  | 1         | 0.1754208 |
-| (WNV)     |           |           | .47080497 |           |
-| INFECTION |           |           |           |           |
-+-----------+-----------+-----------+-----------+-----------+
++----------------+-------------+-----------+-----------+-----------+
+| term\          | estimate\   | std.      | st        | p.value\  |
+| \<chr\>        | \<dbl\>     | error\    | atistic\  | \< dbl\>  |
+|                |             | \<dbl\>   | \<dbl\>   |           |
++:===============+============:+==========:+==========:+==========:+
+| (Intercept)    | \-          | 157       | 1.        | 0         |
+|                | 2           | 3.052665  |  48025251 | .1729390  |
+|                | 328.5151515 |           |           |           |
++----------------+-------------+-----------+-----------+-----------+
+| YEAR           | 1.1515152   | 0.777581  | 1.        | 0         |
+|                |             |           |  48089418 | .1727716  |
++----------------+-------------+-----------+-----------+-----------+
+| BABESIOSIS     | 0.4242424   | 5 .484565 | 0 .       | 0         |
+|                |             |           | 07735207  | .9400358  |
++----------------+-------------+-----------+-----------+-----------+
+| DENGUE         | 4.8484848   | 6\.       | 0 .       | 0         |
+|                |             | 364775    | 76176850  | .4656907  |
++----------------+-------------+-----------+-----------+-----------+
+| EHRLICHIA      | 5.0000000   | 5.157889  | 0 .       | 0         |
+| CHAFFEENSIS    |             |           | 96938889  | .3576794  |
++----------------+-------------+-----------+-----------+-----------+
+| EHRLICHIA      | \- 1 .      | 6.364775  | 0 .       | 0         |
+| EWINGII        | 1515152     |           | 18092002  | .8604390  |
++----------------+-------------+-----------+-----------+-----------+
+| LYME DISEASE   | 8.5606061   | 4.963745  | 1 .       | 0         |
+|                |             |           | 72462659  | .1186814  |
++----------------+-------------+-----------+-----------+-----------+
+| ROCKY MOUNTAIN | 0.5757576   | 5.484565  | 0\.       | 0         |
+| SPOTTED FEVER  |             |           | 10497781  | .9186958  |
++----------------+-------------+-----------+-----------+-----------+
+| WEST NILE      | 8.2272727   | 5.593721  | 1.        | 0         |
+| (WNV)          |             |           |  47080497 | .1754208  |
+| INFECTION      |             |           |           |           |
++----------------+-------------+-----------+-----------+-----------+
 
 9 rows
+
+**Table 1.** Output form a linear model predicting total case counts by
+year and disease type. The intercept represents baseline case counts
+while each diseases represents additional effect size.
 
 ```{r, echo=FALSE}
 library(here)
@@ -514,23 +526,22 @@ knitr::include_graphics(img_path)
 
 ```
 
-+--------+--------+--------+--------+--------+
-| term   | e      | s t    | s t    | p      |
-|        | s      | d      | a      | .value |
-| \      | timate | .error | tistic |        |
-| <chr\> |        |        |        | \      |
-|        | \      | \      | \      | <dbl\> |
-|        | <dbl\> | <dbl\> | <dbl\> |        |
-+:=======+=======:+=======:+=======:+=======:+
-| ( I n  | 9 9 3  | 5 7 2  | 1      | 0 .    |
-| t      | 5      | 9      | .      | 1      |
-| e      | .      | .      | 733920 | 434648 |
-| rcept) | 267857 | 946482 |        |        |
-+--------+--------+--------+--------+--------+
-| YEAR   | -   4  | 2      | -   1  | 0 .    |
-|        |     .  | .      |     .  | 1      |
-|        | 910714 | 835202 | 732051 | 438108 |
-+--------+--------+--------+--------+--------+
++---------+---------+---------+---------+---------+
+| term    | e       | std .   | s t a t | p .     |
+|         | stimate | error   | istic   | value   |
+| \       |         |         |         |         |
+| \       | \       | \       | \       | \       |
+| \<chr\> | \       | \       | \       | \       |
+|         | \<      | \<      | \<      | \<      |
+|         | dbl\>   | dbl\>   | dbl\>   | dbl\>   |
++:========+========:+========:+========:+========:+
+| ( I n   | 9935 .  | 5729 .  | 1 .     | 0 .     |
+| t       | 267857  | 946482  | 733920  | 1434648 |
+| ercept) |         |         |         |         |
++---------+---------+---------+---------+---------+
+| YEAR    | 4 .     | 2 .     | 1 .     | 0 .     |
+|         | 910714  | 835202  | 732051  | 1438108 |
++---------+---------+---------+---------+---------+
 
 2 rows
 
@@ -554,7 +565,7 @@ img_path <- here::here("results", "supplemental-figures", "days_to_lab_over_time
 knitr::include_graphics(img_path)
 ```
 
-## 5.2 Further Statistical Analysis
+## Further Statistical Analysis
 
 To assess whether delays in disease follow-up could be predicted based
 on demographic or case-specific factors, a binary classification
@@ -616,7 +627,7 @@ knitr::include_graphics(here::here("results", "supplemental-figures", "roc_curve
 
 ```
 
-## 5.3 Adding in Poverty Rate Data by County
+## Adding in Poverty Rate Data by County
 
 Now, I was curious. Reflecting back on the EDA analysis and the stark
 differences in county and cases, if the modeling of delay would better
@@ -643,17 +654,11 @@ The random forest regression model explained less than 4% of the
 variance in delay rates (R² = 0.038) with a relatively high prediction
 error (RMSE = 0.37).
 
-+--------------+--------------+--------------+--------------+
-|              |              |              |              |
-+--------------+--------------+--------------+--------------+
-|              |              |              |              |
-+--------------+--------------+--------------+--------------+
-
 {{< pagebreak >}}
 
-# 6. Discussion
+# Discussion
 
-## 6.1 Summary and Interpretation
+## Summary and Interpretation
 
 The random forest model for the modeling of delay as an outcome all
 predictors selected from cross-validation was refitted to the full
@@ -670,15 +675,20 @@ The ROC curve showed consistent separation between sensitivity and
 1-specificity, further supporting model validity. These results suggest
 that case characteristics such as age, sex, county, and disease type
 contain meaningful predictive information regarding follow-up delays in
-surveillance data.Such insights can inform improvements in case
-monitoring, triaging, and outreach in counties or patient groups with
-higher risk for delays.
+surveillance data. These results align with previous findings that
+individual-level demographics and geography can influence diagnosis of
+vector-borne diseases, though the moderate predictive power suggests
+additional factors— such as healthcare access and proximity
+[@starke2023; @frontier]— remain unmeasured in this simplistic modeled
+understanding of time to diagnosis. Such insights can inform
+improvements in case monitoring, triaging, and outreach in counties or
+patient groups with higher risk for delays.
 
 County-level poverty rate was evaluated as a predictor of the proportion
 of cases with diagnostic delays exceeding 30 days. A linear regression
-model indicated no statistically significant relationship between
-poverty rate and delay rate (p = 0.87). The estimated effect size was
-minimal (β = 0.0049), and the 95% confidence interval included zero.
+model indicated no statistically significant relationshipbetween poverty
+rate and delay rate (p = 0.87). The estimated effect size was minimal (β
+= 0.0049), and the 95% confidence interval included zero.
 
 A random forest regression model using the same predictor resulted in
 low predictive performance. The R² was 0.038, indicating that poverty
@@ -703,9 +713,9 @@ diagnostic delays in this dataset.
     cases by risk — in other words, it doesn’t distinguish well between
     high and low risk of delay.
 
--   The all-predictors model performed more balanced, with a decent
-    accuracy and a stronger ROC AUC, meaning it did a better
-    job discriminating between delayed and non-delayed cases.
+-   The all-predictors model performed more balanced, with a decent
+    accuracy and a stronger ROC AUC, meaning it did a better job
+    discriminating between delayed and non-delayed cases.
 
 +--------------+--------------+--------------+--------------+
 | Model Type   | Predictors   | Accuracy     | ROC AUC      |
@@ -721,7 +731,7 @@ diagnostic delays in this dataset.
 | Only         |              |              |              |
 +--------------+--------------+--------------+--------------+
 
-## 6.2 Strengths and Limitations
+## Strengths and Limitations
 
 This analysis leveraged a comprehensive dataset spanning six years and
 multiple counties across Georgia, allowing for exploration of both
@@ -742,9 +752,9 @@ economic variation, aggregate poverty rates may not accurately represent
 the lived experience or access to healthcare of individuals affected by
 tick-borne disease.
 
-Furthermore, individual exposure risk is often tightly linked to SES.
-For instance, people in outdoor labor roles—such as landscaping,
-farming, or construction—may face greater tick exposure than those
+Furthermore, individual exposure risk is often tightly linked to SES.
+For instance, people in outdoor labor roles—such as landscaping,
+farming, or construction—may face greater tick exposure than those
 working indoors, regardless of the county’s average income level. These
 more granular, individual-level occupational or behavioral factors were
 not captured in this dataset, which limits the precision of predictive
@@ -763,7 +773,7 @@ of delay. Finally, the poverty rate was measured at the county level,
 which may not reflect intra-county disparities or the lived experience
 of patients.
 
-# 7. Conclusions
+# Conclusions
 
 -   Individual-level characteristics such as age, sex, disease type, and
     county were moderately effective in predicting whether a tick-borne
